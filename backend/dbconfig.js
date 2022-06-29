@@ -1,17 +1,16 @@
-const dbconfig = {
+const sql = require('mssql')
+
+const dbSettings = {
     user: 'sa',
     password: 'Haben1985',
     server: 'LAPTOP-083NV1OH',
     database: 'Groupomania',
-    options: {
-        trustedconnection: true,
-        enableArithAbort: true,
-        instancename: 'SQLEXPRESS'
-
-    },
     port: 1433
 }
 
-//ip adress =  10.23.73.17
+//ip adress =  192.168.0.102
 
-exports.module = dbconfig
+async function getConnection() {
+    const pool = await sql.connect(dbSettings);
+    pool.request
+}
