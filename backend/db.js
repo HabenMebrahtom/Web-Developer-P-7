@@ -1,6 +1,8 @@
-const sql = require('mssql')
+const sql = require('mssql');
+const { Sequelize } = require('sequelize');
 
-const sqlConfig = {
+
+const dbConfig = {
     user: 'sa',
     password: 'Haben1985',
     server: 'localhost',
@@ -13,27 +15,28 @@ const sqlConfig = {
   },
   options: {
     encrypt: true, // for azure
-    trustServerCertificate: true// change to true for local dev / self-signed certs
+    trustServerCertificate: true// 
     },
    port: 1433
 }
 
+
+
+const sequelize = new Sequelize(dbConfig.database, dbConfig.user, dbConfig.password, { host: dbConfig.server, dialect: dbConfig.dialect });
+module.exports = sequelize;
+
 //ip adress =  192.168.0.102
 
-sql.on('error', error => {
-    console.log(error.message);
-})
 
-async function getConnection() {
+/*exports.getConnection = async() => {
     try {
         const pool = await sql.connect(sqlConfig);
         const result = await pool.request().query(`SELECT * FROM Users`);
-        console.log(result)
+        //console.log(result.recordset)
         sql.close();
     } catch (error) {
         console.log(error);
          sql.close();
     }
-}
+}*/
 
-getConnection();
