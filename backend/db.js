@@ -1,4 +1,4 @@
-const sql = require('mssql');
+//const sql = require('mssql');
 const { Sequelize } = require('sequelize');
 
 
@@ -9,21 +9,22 @@ const dbConfig = {
     database: 'Groupomania',
     dialect: 'mssql',
     pool: {
-        max: 10,
+        max: 5,
         min: 0,
-        idleTimeoutMillis: 30000
+        acquire: 30000,
+        idle: 10000
   },
-  options: {
+  /*options: {
     encrypt: true, // for azure
     trustServerCertificate: true// 
     },
-   port: 1433
+   port: 1433*/
 }
 
 
 
-const sequelize = new Sequelize(dbConfig.database, dbConfig.user, dbConfig.password, { host: dbConfig.server, dialect: dbConfig.dialect });
-module.exports = sequelize;
+
+module.exports = dbConfig;
 
 //ip adress =  192.168.0.102
 
