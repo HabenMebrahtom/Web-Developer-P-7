@@ -1,11 +1,10 @@
-//const sql = require('mssql');
 const db = require('../models');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 require('dotenv').config();
 
 
-/*exports.registerUser = async (req, res) => {
+exports.registerUser = async (req, res) => {
 
     const User = db.user
     try {
@@ -15,15 +14,20 @@ require('dotenv').config();
             res.status(400).send('All input fields required');
         }
 
-        
+        const olderUser = await User.findOne({where: {email: email}});
+
         if (olderUser) {
             return res.status(409).send('This user is already registered, Please login');
         }
 
-
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
-        
+
+         const user = await User.create({
+            email: email.toLowerCase(),
+            password: hashedPassword
+        })
+                
         const token = jwt.sign(
             { user_id: user.id, email },
             process.env.TOKEN_KEY,
@@ -39,4 +43,8 @@ require('dotenv').config();
         res.status(500).send(error.message)
    }
       
-}*/
+}
+
+exports.loginUser = (req, res) => {
+    
+}

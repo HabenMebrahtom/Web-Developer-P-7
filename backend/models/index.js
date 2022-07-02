@@ -26,9 +26,7 @@ db.sequelize = sequelize;
 
 db.user = require('./user')(sequelize, DataTypes);
 
-db.sequelize.sync({ force: false }).then(() => {
-    console.log('resync has done!')
-})
+db.sequelize.sync({ force: true });
 
 
 module.exports = db;
