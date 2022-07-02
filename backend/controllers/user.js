@@ -3,10 +3,11 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 require('dotenv').config();
 
+const User = db.user
+
 
 exports.registerUser = async (req, res) => {
 
-    const User = db.user
     try {
         const { email, password } = req.body;
         
@@ -32,7 +33,7 @@ exports.registerUser = async (req, res) => {
             { user_id: user.id, email },
             process.env.TOKEN_KEY,
             {
-                expiresIn: '2h'
+                expiresIn: '7h'
             })
          
            user.token = token
@@ -45,6 +46,38 @@ exports.registerUser = async (req, res) => {
       
 }
 
-exports.loginUser = (req, res) => {
-    
+exports.loginUser = async(req, res) => {
+    try {
+        const { email, password } = req.body;
+
+        if (!(email && password)) {
+            res.status(400).send('All input field is required');
+        }
+
+        const user = await User.findOne({ email });
+        const validPassword = await bcrypt.compare(password, user.password);
+
+        if (user && validPassword) {
+            const token = jwt.sign({
+                user_id: user.id,
+                email
+            },
+                process.env.TOKEN_KEY,
+                {
+                    expiresIn: '7h'
+                }
+            );
+
+            user.token = token;
+
+            const dataRes = {
+                userId: user.id,
+                token: user.token
+            }
+
+            res.status(201).send(dataRes)
+        }
+    } catch (error) {
+        res.status(500).send(error.message)
+    }
 }
