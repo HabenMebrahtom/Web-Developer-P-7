@@ -5,7 +5,6 @@ module.exports = (sequelize, DataTypes) => {
             password: { type: DataTypes.STRING, allowNull: false },
             token : { type: DataTypes.STRING}
       });
-    
     return User;
 }
 

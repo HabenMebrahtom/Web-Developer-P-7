@@ -54,7 +54,7 @@ exports.loginUser = async(req, res) => {
             res.status(400).send('All input field is required');
         }
 
-        const user = await User.findOne({ email });
+        const user = await User.findOne({ where: {email: email}});
         const validPassword = await bcrypt.compare(password, user.password);
 
         if (user && validPassword) {
@@ -71,12 +71,13 @@ exports.loginUser = async(req, res) => {
             user.token = token;
 
             const dataRes = {
-                userId: user.id,
+                userId: (user.id).toString(),
                 token: user.token
             }
 
             res.status(201).send(dataRes)
         }
+         res.sendStatus(400)
     } catch (error) {
         res.status(500).send(error.message)
     }

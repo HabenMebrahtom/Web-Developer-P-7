@@ -25,7 +25,6 @@ db.sequelize = sequelize;
 
 
 db.user = require('./user')(sequelize, DataTypes);
-
 db.sequelize.sync({ force: true });
 
 
