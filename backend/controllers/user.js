@@ -82,3 +82,15 @@ exports.loginUser = async(req, res) => {
         res.status(500).send(error.message)
     }
 }
+
+
+exports.deleteUser = async(req, res) => {
+    const { id } = req.params;
+
+    try {
+        const removedUser = await User.remove({ id: id });
+        res.status(201).send(removedUser)
+    } catch (error) {
+        res.status(500).send(error)
+    }
+}
