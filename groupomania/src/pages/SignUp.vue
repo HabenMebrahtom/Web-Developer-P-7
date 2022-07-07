@@ -36,7 +36,7 @@
                          placeholder="Password"/>
                      <p class="error" v-if="errors.password">{{errors.password}}</p>
                   </div>
-                  <div class="form-outline flex-fill mb-4">
+                  <!--<div class="form-outline flex-fill mb-4">
                      <input 
                         type="password" 
                         id="repeatedPassword" 
@@ -44,7 +44,7 @@
                         v-model="repeatedPassword"
                          placeholder="Repeat your assword" />
                      <p class="error" v-if="errors.repeatedPassword">{{errors.repeatedPassword}}</p>
-                  </div>
+                  </div> -->
                   <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
                   <button type="submit" class="btn btn-primary btn-lg">Register</button>
                   </div>
@@ -52,7 +52,7 @@
             </div>
             <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
                <img src="../assets/icon-above-font.png"
-                  class="img-fluid" alt="Groupmania">
+                  class="img-fluid" alt="Groupmania logo">
             </div>
             </div>
          </div>
@@ -102,6 +102,11 @@ h3 {
    padding-left: 20px;
  }
 
+ .img-fluid {
+    height: 300px
+    ;
+ }
+
 .errors {
    color: red;
 }
@@ -109,6 +114,8 @@ h3 {
 </style>
    
 <script>
+
+import axios from 'axios';
 import Validations from '../services/Validations.js';
 
 export default {
@@ -118,13 +125,10 @@ export default {
          name: '',
          email: '',
          password: '',
-         repeatedPassword: '',
                
             }
    },
    methods: {
-
-      
 
       onSignup() {
          if (!this.name) {
@@ -143,20 +147,30 @@ export default {
             this.errors['password'] = "Your password must be more than 6 characters";
          }
 
-        if (!this.repeatedPassword) {
+      /*  if (!this.repeatedPassword) {
          this.errors['repeatedPassword'] = "Repeat your password"
          } else if (this.password !== this.repeatedPassword) {
              this.errors['repeatedPassword'] = "Repeat your password correctly"
-      }
+      }*/
 
         
-      if ('name' in this.errors || 'email' in this.errors || 'password' in this.errors || 'repeatedPassword' in this.errors) {
+         if ('name' in this.errors ||
+            'email' in this.errors ||
+            'password' in this.errors ){
          return false
-         }
-
-
-         //signup registration
-           this.signup({ email: this.email, password: this.password });
+         } else {
+             let newUser = {
+                  name: this.name,
+                  email: this.email,
+                  password: this.password
+                  }
+            axios.post(`http://localhost:4000/api/auth/signup`, newUser)
+               .then(res => {
+               console.log(res)
+               }, error => {
+                  console.log(error.response)
+               })
+         }    
       }
          }
       };

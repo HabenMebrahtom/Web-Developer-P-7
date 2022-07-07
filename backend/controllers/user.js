@@ -1,21 +1,21 @@
-const db = require('../models');
+const db = require('../models/index');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 require('dotenv').config();
 
-const User = db.user
+const User = db.user;
 
 
 exports.registerUser = async (req, res) => {
 
     try {
-        const { email, password } = req.body;
+        const { name, email, password } = req.body;
         
-        if (!(email && password)) {
+        if (!(name && email && password)) {
             res.status(400).send('All input fields required');
         }
 
-        const olderUser = await User.findOne({where: {email: email}});
+        const olderUser = await User.findOne({ where: { email: email } });
 
         if (olderUser) {
             return res.status(409).send('This user is already registered, Please login');
@@ -24,26 +24,26 @@ exports.registerUser = async (req, res) => {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
-         const user = await User.create({
-            email: email.toLowerCase(),
-            password: hashedPassword
+        const user = await User.create({
+             name: name,
+             email: email.toLowerCase(),
+             password: hashedPassword
         })
                 
         const token = jwt.sign(
             { user_id: user.id, email },
             process.env.TOKEN_KEY,
             {
-                expiresIn: '7h'
+                expiresIn: '2h'
             })
          
            user.token = token
 
-        res.status(201).send(user);
-        
+        res.status(201).send(user);  
+        console.log(user)
     } catch (error) {
         res.status(500).send(error.message)
-   }
-      
+   }     
 }
 
 exports.loginUser = async(req, res) => {
@@ -54,42 +54,44 @@ exports.loginUser = async(req, res) => {
             res.status(400).send('All input field is required');
         }
 
-        const user = await User.findOne({ where: {email: email}});
-        const validPassword = await bcrypt.compare(password, user.password);
+        const user = await User.findOne({ where: { email: email } });
+        
+      
+        if (user) {
+            const validPassword = await bcrypt.compare(password, user.password);
+            if (validPassword) {
+                
+                  const token = jwt.sign( { user_id: user.id, email },
+                       process.env.TOKEN_KEY,
+                      {
+                    expiresIn: '2h'
+                     });
 
-        if (user && validPassword) {
-            const token = jwt.sign({
-                user_id: user.id,
-                email
-            },
-                process.env.TOKEN_KEY,
-                {
-                    expiresIn: '7h'
+                        user.token = token;
+
+                        const dataResponse = {
+                            id: user.id,
+                            token: user.token
+                        }
+
+                        return res.status(201).json(dataResponse)
                 }
-            );
-
-            user.token = token;
-
-            const dataRes = {
-                userId: (user.id).toString(),
-                token: user.token
             }
 
-            res.status(201).send(dataRes)
-        }
-         res.sendStatus(400)
+        res.status(400).json('Invalid Credentials')
+               
     } catch (error) {
         res.status(500).send(error.message)
     }
 }
 
 
-exports.deleteUser = async(req, res) => {
+exports.deleteUser = async(req, res, next) => {
     const { id } = req.params;
 
     try {
-        const removedUser = await User.remove({ id: id });
-        res.status(201).send(removedUser)
+        await User.destroy({ where: { id: id } });
+        res.status(201).send('Sucessfully Deleted');
     } catch (error) {
         res.status(500).send(error)
     }

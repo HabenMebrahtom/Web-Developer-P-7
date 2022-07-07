@@ -1,12 +1,12 @@
   <template>
     <section class="vh-100 ">
-      <div class="container-fluid py-5 h-100">
+      <div class="container-fluid  h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
           <div class="col-12 col-md-8 col-lg-6 col-xl-5">
             <div class="card text-dark" >
               <div class="card-body p-5 text-center">
                 <div class="mb-md-3 mt-md-2 pb-5">
-                  <h2 class="fw-bold mb-2 text-uppercase">Login </h2>
+                  <h2 class="fw-bold mb-2 text-uppercase">Login</h2>
                   <p class="text-dark-50 mb-5">Please enter your email and password!</p>
                   <form @submit.prevent="onLogin()">
                       <div class="form-outline form-white mb-4">
@@ -16,7 +16,7 @@
                           id="email"
                           class="form-control form-control-lg" 
                           placeholder="Email"
-                          v-model.trim="email"/>
+                          v-model="email"/>
                           <p class="error" v-if="errors.email">{{errors.email}}</p>
                       </div>
                       
@@ -64,14 +64,17 @@
 </style>
 
 <script>
+
+import axios from 'axios';
 import Validations from '../services/Validations.js'
  
 export default {
+
   data() {
     return {
-      errors: [],
-      email: '',
-      password: '',
+         errors: [],
+         email: '',
+         password: '',
        }
   },
   methods: {
@@ -93,7 +96,20 @@ export default {
       if ('email' in this.errors || 'password' in this.errors) {
          return false
       }
+
+      
+        let user = {
+          email: this.email,
+          password: this.password
+        }
+        axios.post(`http://localhost:4000/api/auth/login`, user)
+          .then(res => {
+            console.log(res)
+          }, error => {
+            console.log(error.response)
+          }) 
+      }
         }
       }
-    }
+  
 </script>
