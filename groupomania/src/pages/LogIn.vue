@@ -97,11 +97,12 @@ export default {
          return false
       }
 
-      
+
         let user = {
           email: this.email,
           password: this.password
-        }
+      }
+        
         axios.post(`http://localhost:4000/api/auth/login`, user)
           .then(res => {
             console.log(res)
