@@ -3,7 +3,7 @@
       <div class="container-fluid  h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
           <div class="col-12 col-md-8 col-lg-6 col-xl-5">
-            <div class="card text-dark" >
+            <div class="card" >
               <div class="card-body p-5 text-center">
                 <div class="mb-md-3 mt-md-2 pb-5">
                   <h2 class="fw-bold mb-2 text-uppercase">Login</h2>
@@ -35,7 +35,7 @@
                   </form>
                 </div>
                 <div>
-                  <p class="mb-0">Don't have an account? <router-link to="/" class="text-primary text-decoration-none">Sign up</router-link>
+                  <p class="mb-0">Don't have an account? <router-link to="/signup" class="text-warning text-decoration-none">Sign Up</router-link>
                   </p>
                 </div>
               </div>
@@ -49,7 +49,8 @@
 <style>
      .card {
           border-radius: 10px;
-          background-color: rgba(61, 3, 40, 0.365);
+          background-color: rgb(0, 0, 0, .6);
+          color: white;
      }
 
      .btn:hover {
@@ -78,7 +79,7 @@ export default {
        }
   },
   methods: {
-    onLogin() {
+    async onLogin() {
 
         if(!this.email) {
              this.errors['email'] = 'Email Required';
@@ -96,19 +97,18 @@ export default {
       if ('email' in this.errors || 'password' in this.errors) {
          return false
       }
-
-
-        let user = {
+ 
+      const response = await axios.post(`http://localhost:4000/api/auth/login`, {
           email: this.email,
           password: this.password
-      }
-        
-        axios.post(`http://localhost:4000/api/auth/login`, user)
-          .then(res => {
-            console.log(res)
-          }, error => {
-            console.log(error.response)
-          }) 
+      } )
+    
+            if (response.status === 201) {
+              localStorage.setItem('token', response.data.token);
+              localStorage.setItem('userId', response.data.id)
+              this.$router.push('/forum')
+            }
+    console.log(response)
       }
         }
       }

@@ -61,7 +61,7 @@ exports.loginUser = async(req, res) => {
             const validPassword = await bcrypt.compare(password, user.password);
             if (validPassword) {
                 
-                  const token = jwt.sign( { user_id: user.id, email },
+                  const token = jwt.sign( { userId: user.id, email },
                        process.env.TOKEN_KEY,
                       {
                     expiresIn: '2h'
@@ -71,6 +71,7 @@ exports.loginUser = async(req, res) => {
 
                         const dataResponse = {
                             id: user.id,
+                            name: user.name,
                             token: user.token
                         }
 
@@ -85,6 +86,18 @@ exports.loginUser = async(req, res) => {
     }
 }
 
+
+
+exports.getUser = async(req, res, next) => {
+    const { id } = req.body;
+    try {
+        const user = await User.findOne({ where: { id: id } });
+        res.status(200).json(user)
+       
+    } catch (error) {
+        res.status(500).send(error.message)
+   }
+}
 
 exports.deleteUser = async(req, res, next) => {
     const { id } = req.params;

@@ -1,8 +1,8 @@
 <template>
 <section class="vh-100">
-<div class="container h-100 ">
+<div class="container py-3 h-100 ">
    <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col-lg-12 col-xl-11">
+      <div class="col-lg-10 col-xl-8">
       <div class="card text-black bg-white">
          <div class="card-body p-md-4">
             <div class="row justify-content-center">
@@ -130,7 +130,7 @@ export default {
    },
    methods: {
 
-      onSignup() {
+     async onSignup() {
          if (!this.name) {
          this.errors['name'] = "You must write your name"
          }
@@ -158,20 +158,15 @@ export default {
             'email' in this.errors ||
             'password' in this.errors ){
          return false
-         } else {
-             let newUser = {
+         } 
+            
+          const response = await  axios.post(`http://localhost:4000/api/auth/signup`, {
                   name: this.name,
                   email: this.email,
                   password: this.password
-                  }
-            axios.post(`http://localhost:4000/api/auth/signup`, newUser)
-               .then(res => {
-               console.log(res)
-               }, error => {
-                  console.log(error.response)
-               })
+                  })
+            console.log(response)
          }    
       }
-         }
       };
 </script>

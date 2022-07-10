@@ -1,22 +1,33 @@
 <template>
-    <div id="nav" class="d-flex justify-content-evenly align-items-center">
-    <div >
-        <router-link to="/signup" class="navbar">
-          <img src="./assets/icon-left-font-monochrome-black.png" alt="Groupomania logo">
-        </router-link>
-    </div>
-    <div>
-      <ul>
-          <router-link to="/signup" class="link">Sign up</router-link>
-          <router-link to="/login" class="link" >Login</router-link>
-    </ul>
-    </div>  
-   </div>
+      <div id="nav" class="d-flex justify-content-evenly align-items-center">
+          <div >
+              <router-link to="/" class="navbar">
+                <img src="../assets/icon-left-font-monochrome-black.png" alt="Groupomania logo">
+              </router-link>
+          </div>
+          <div>
+              <ul v-if="!user">
+                <router-link to="/login" class="link" >Log in</router-link>
+              </ul>
+              <ul v-if="user" >
+                <router-link  to="/login" class="link" @click="handleSubmit">Log out</router-link>
+              </ul>
+          </div>  
+     </div>
 </template>
 
 
 <script>
-   export default {}
+export default {
+    name: 'NavHeader',
+    props: ['user'], 
+    methods: {
+        handleSubmit() {
+            localStorage.clear();
+            this.$router.push('/login');
+             }
+    }
+   }
 </script>
 
 
@@ -44,13 +55,15 @@
     text-decoration: none;
     text-transform: uppercase;
     color: black;
-    font-size: 20px;
-    font-weight: 700;
+    font-size: 18px;
+    font-weight: 500;
     margin-left: 20px;
   }
 
-  .link:nth-child(n-2):hover {
-    color: red;
+  .link:hover {
+    color: blue;
+    font-size: 20;
+    font-weight: 700;
   }
 
 
