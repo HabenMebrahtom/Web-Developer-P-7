@@ -1,9 +1,12 @@
 const db = require('../models/index');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const { topic } = require('../models/index');
 require('dotenv').config();
 
 const User = db.user;
+const Topic = db.topic;
+const Reply = db.reply;
 
 
 exports.registerUser = async (req, res) => {
@@ -89,7 +92,7 @@ exports.loginUser = async(req, res) => {
 
 
 exports.getUser = async(req, res, next) => {
-    const { id } = req.body;
+    const { id } = req.params;
     try {
         const user = await User.findOne({ where: { id: id } });
         res.status(200).json(user)
@@ -107,5 +110,42 @@ exports.deleteUser = async(req, res, next) => {
         res.status(201).send('Sucessfully Deleted');
     } catch (error) {
         res.status(500).send(error)
+    }
+}
+
+
+exports.getUserTopic = async (req, res) => {
+    const { id } = req.params;
+    try {
+
+        const topic = await Topic.findOne({ 
+            include: [{
+                model: 'Topic',
+                as: 'topic'
+            }],
+            where: {id: id}
+        })
+        res.status(200).send(reply)
+    } catch (error) {
+        res.status(404).send(error.message)
+    }
+}
+
+
+exports.getUserReply = async (req, res) => {
+    const { id } = req.params;
+    try {
+
+        const reply = await Reply.findOne({
+            include: [{
+                model: 'Replay',
+                as: 'reply'
+            }],
+            where: { id: id }
+        });
+
+        res.status(200).send(reply)
+    } catch (error) {
+        res.status(404).send(error.message)
     }
 }

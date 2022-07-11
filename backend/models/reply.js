@@ -1,9 +1,8 @@
 module.exports = (sequelize, DataTypes) => {
-    const Topics = sequelize.define('Topic', {
+    const Reply = sequelize.define('Reply', {
             id: { type: DataTypes.UUID, primaryKey: true, defaultValue: DataTypes.UUIDV4 },
-            title: {type: DataTypes.STRING, allowNull:false},
             content: { type: DataTypes.STRING, allowNull: false },
             imageUrl: {type: DataTypes.STRING, allowNull: false}
       });
-    return Topics;
+    return Reply;
 }

@@ -67,7 +67,8 @@
 <script>
 
 import axios from 'axios';
-import Validations from '../services/Validations.js'
+import Validations from '../services/Validations.js';
+import '../axios'
  
 export default {
 
@@ -97,18 +98,23 @@ export default {
       if ('email' in this.errors || 'password' in this.errors) {
          return false
       }
- 
-      const response = await axios.post(`http://localhost:4000/api/auth/login`, {
+
+      const userInput = {
           email: this.email,
           password: this.password
-      } )
+      }
+ 
+      const response = await axios.post(`login`, userInput)
+
     
-            if (response.status === 201) {
-              localStorage.setItem('token', response.data.token);
-              localStorage.setItem('userId', response.data.id)
-              this.$router.push('/forum')
-            }
-    console.log(response)
+      if (response.status === 201) {
+        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('userId', response.data.id);
+        this.$router.push('/forum');
+      }
+
+      console.log(response.data)
+       
       }
         }
       }

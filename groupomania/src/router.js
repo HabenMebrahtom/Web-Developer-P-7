@@ -7,8 +7,8 @@ import forum from "./components/OpenForum.vue"
 const routes = [
      { path: "/", name: 'LandingPage', component: LandingPage },
      { path: "/signup", name: 'SignUp', component: SignUp },
-    { path: "/login", name: 'LogIn', component: LogIn },
-     {path: "/forum", name: 'forum', component: forum}
+     { path: "/login", name: 'LogIn', component: LogIn },
+     { path: "/forum", name: 'forum', component: forum }
     
 ]
 

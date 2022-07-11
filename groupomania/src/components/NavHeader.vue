@@ -22,10 +22,11 @@ export default {
     name: 'NavHeader',
     props: ['user'], 
     methods: {
-        handleSubmit() {
-            localStorage.clear();
-            this.$router.push('/login');
-             }
+      handleSubmit() {
+        localStorage.clear();
+        this.$router.push('/login');
+      }   
+           
     }
    }
 </script>

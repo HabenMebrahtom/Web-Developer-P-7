@@ -8,7 +8,8 @@
 
 <script>
 import NavHeader from './components/NavHeader.vue';
-import axios from 'axios'
+import axios from 'axios';
+import './axios'
 
 export default {
   name: 'App',
@@ -24,17 +25,12 @@ export default {
         if (localStorage.getItem('token') === null &&  localStorage.getItem('userId') === null) {
             this.$router.push('/login')
         }
-        //if user is authorized
-
+    },
+    async mounted() {
         const id = localStorage.getItem('userId')
-        const response = await axios.get(`http://localhost:4000/api/auth/${id}`, {
-            headers: {
-                token:  localStorage.getItem('token')
-            }
-        })
-        this.user = response.data.name
-        
-        console.log(this.user);
+        const response = await axios.get(`${id}`)
+
+        this.user = response.data
     }
     
 }

@@ -11,9 +11,6 @@ const storage = multer.diskStorage({
 
 const filefilter = (req, file, cb) => {
     if (
-        file.mimetype == "audio/mp4a-latm" ||
-        file.mimetype == "audio/mpeg" ||
-        file.mimetype == "application/zip" ||
         file.mimetype === 'image/png' ||
         file.mimetype === 'image/jpg' ||
         file.mimetype === 'image/jpeg' ||
