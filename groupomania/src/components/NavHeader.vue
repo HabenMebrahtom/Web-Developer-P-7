@@ -1,17 +1,20 @@
 <template>
-      <div id="nav" class="d-flex justify-content-evenly align-items-center">
+      <div id="nav" class="d-flex justify-content-between align-items-center px-5">
           <div >
-              <router-link to="/" class="navbar">
-                <img src="../assets/icon-left-font-monochrome-black.png" alt="Groupomania logo">
+              <router-link to="/" class="navbar ml-5" v-if="!user">
+                 <img src="../assets/icon-left-font-monochrome-black.png" alt="Groupomania logo">
               </router-link>
+              <div v-else class="navbar">
+                 <img src="../assets/icon-left-font-monochrome-black.png" alt="Groupomania logo">
+              </div>
           </div>
-          <div>
-              <ul v-if="!user">
-                <router-link to="/login" class="link" >Log in</router-link>
-              </ul>
-              <ul v-if="user" >
-                <router-link  to="/login" class="link" @click="handleSubmit">Log out</router-link>
-              </ul>
+          <div v-if="!user">
+              <router-link to="/login" class="link" >Log in</router-link>
+              <router-link  to="/signup" class="link" >Sign up</router-link>
+          </div>
+          <div v-else >
+              <img src="../assets/discussion.jpg" class="profile-image ml-5" alt="Proile image">
+             <router-link  to="/login" class="link" @click.prevent="handleSubmit">Log out</router-link>
           </div>  
      </div>
 </template>
@@ -24,7 +27,8 @@ export default {
     methods: {
       handleSubmit() {
         localStorage.clear();
-        this.$router.push('/login');
+        this.$router.replace('/login');
+        location.reload()
       }   
            
     }
@@ -33,18 +37,11 @@ export default {
 
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
 
 #nav {
   height:  150px;
   color: black;
+  background-color: rgb(25, 237, 237);
 }
 
 .navbar img {
@@ -62,9 +59,16 @@ export default {
   }
 
   .link:hover {
-    color: blue;
+    color: rgb(211, 7, 197);
     font-size: 20;
     font-weight: 700;
+  }
+
+  .profile-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 20px;
   }
 
 

@@ -1,17 +1,18 @@
 <template>
-   <div>
-      <h2>hello world</h2>
-   </div>
+      <ModalForm />
 </template>
 
-<style>
-
-</style>
-
 <script>
+import ModalForm from "./ModalForm.vue";
 
 export default {
-    props: ['user']
+   name: 'OpenForum',
+   components: {
+      ModalForm
+     }
      
 }
 </script>
+
+<style>
+</style>

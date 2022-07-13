@@ -104,7 +104,7 @@ export default {
           password: this.password
       }
  
-      const response = await axios.post(`login`, userInput)
+      const response = await axios.post('login', userInput)
 
     
       if (response.status === 201) {

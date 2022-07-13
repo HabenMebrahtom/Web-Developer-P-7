@@ -117,6 +117,7 @@ h3 {
 
 import axios from 'axios';
 import Validations from '../services/Validations.js';
+require('../axios')
 
 export default {
    data() {
@@ -160,12 +161,16 @@ export default {
          return false
          } 
             
-          const response = await  axios.post(`http://localhost:4000/api/auth/signup`, {
+          const response = await  axios.post('signup', {
                   name: this.name,
                   email: this.email,
                   password: this.password
                   })
-            console.log(response)
+         console.log(response.data)
+
+         if (response.status === 201) {
+               this.$router.push('/login')
+            }
          }    
       }
       };

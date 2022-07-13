@@ -1,5 +1,5 @@
 <template>
-  <NavHeader :user="user"/>
+  <NavHeader :user="user" />
   <div>
       <router-view :user="user"></router-view>
   </div>
@@ -16,7 +16,7 @@ export default {
   components: { NavHeader },
   data() {
         return {
-            user: ''
+            user: null
             }
     },
 
