@@ -3,12 +3,12 @@
 </template>
 
 <script>
-import ModalForm from "./ModalForm.vue";
+//import ModalForm from "./ModalForm.vue";
 
 export default {
    name: 'OpenForum',
    components: {
-      ModalForm
+     // ModalForm
      }
      
 }

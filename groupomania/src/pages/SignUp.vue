@@ -161,16 +161,21 @@ export default {
          return false
          } 
             
-          const response = await  axios.post('signup', {
+         try {
+            const response = await  axios.post('/signup', {
                   name: this.name,
                   email: this.email,
                   password: this.password
                   })
-         console.log(response.data)
+            console.log(response.data)
 
-         if (response.status === 201) {
+              if (response.status === 201) {
                this.$router.push('/login')
             }
+         } catch (error) {
+            console.log(error.message)
+          }
+
          }    
       }
       };

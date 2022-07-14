@@ -125,7 +125,7 @@ exports.getUserTopic = async (req, res) => {
             }],
             where: {id: id}
         })
-        res.status(200).send(reply)
+        res.status(200).send(topic)
     } catch (error) {
         res.status(404).send(error.message)
     }

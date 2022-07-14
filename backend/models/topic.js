@@ -3,7 +3,7 @@ module.exports = (sequelize, DataTypes) => {
             id: { type: DataTypes.UUID, primaryKey: true, defaultValue: DataTypes.UUIDV4 },
             title: {type: DataTypes.STRING, allowNull:false},
             content: { type: DataTypes.STRING, allowNull: false },
-            imageUrl: {type: DataTypes.STRING, allowNull: false}
+            imageUrl: {type: DataTypes.STRING}
       });
     return Topics;
 }

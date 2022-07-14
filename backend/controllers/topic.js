@@ -30,13 +30,12 @@ exports.createTopic = async(req, res) => {
         const newTopic = await Topic.create({
             title: title,
             content: content,
-            imageUrl: url + '/images/' + req.file.filename
+            //imageUrl: url + '/images/' + req.file.filename
         })
 
         res.status(201).send(newTopic);
-
     } catch (error) {
-        res.status(400).send(error.message)
+        res.status(500).send(error.message)
     }
 }
 
