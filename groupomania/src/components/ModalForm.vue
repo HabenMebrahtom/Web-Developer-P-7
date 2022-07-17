@@ -14,7 +14,6 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="post" @submit.prevent="onSubmit()">
                     <div class="mb-3">
                         <label for="post-title" class="form-label">Title</label>
                         <input v-model="title" type="text" class="form-control" id="post-title" >
@@ -23,7 +22,6 @@
                         <label for="exampleFormControlTextarea1" class="form-label">Content</label>
                         <textarea v-model="content" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
                     </div>
-                </form>
             </div>
             <div class="modal-footer">
                <!--
@@ -34,7 +32,7 @@
                   class="form-control rounded upload" 
                   id="uploadImage">
                -->
-               <button type="submit" class="btn post-btn" >Save</button>
+               <button type="button" class="btn post-btn" @click.prevent="onSubmit()" >Save</button>
                <button type="button" class="btn bg-danger" data-bs-dismiss="modal">Close</button>
             </div>
          </div>
@@ -44,7 +42,7 @@
 </template>
 
 <script>
-//import axios from 'axios';
+import axios from 'axios';
 require('../axios')
 
 export default {
@@ -54,7 +52,7 @@ export default {
             errors: [],
             title: '',
             content: '',
-           // image: '',
+            image: '',
            }
     },
     methods: {
@@ -71,13 +69,14 @@ export default {
                 return false
             } */
             
-            //const newPost = {
-                //title: this.title,
-               // content: this.content
-            //}
+            const newPost = {
+                title: this.title,
+                content: this.content,
+                image: this.image
+            }
 
-            //const responseData = await axios.post('/topic', newPost);
-            //console.log(responseData.data)
+            const responseData = await axios.post('/topic', newPost);
+            console.log(responseData.data)
 
         }
        }

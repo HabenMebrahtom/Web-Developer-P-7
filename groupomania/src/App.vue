@@ -8,7 +8,7 @@
 
 <script>
 import NavHeader from './components/NavHeader.vue';
-//import axios from 'axios';
+import axios from 'axios';
 import './axios'
 
 export default {
@@ -28,10 +28,10 @@ export default {
         }
     },
     async mounted() {
-        //const id = localStorage.getItem('userId')
-        //const response = await axios.get(`/${id}`)
+        const id = localStorage.getItem('userId')
+        const response = await axios.get(`/auth/${id}`)
 
-        //this.user = response.data
+        this.user = response.data
     }
     
 }

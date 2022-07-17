@@ -1,17 +1,14 @@
-const db = require('../models/index');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const { topic } = require('../models/index');
 require('dotenv').config();
 
-const User = db.user;
-const Topic = db.topic;
-const Reply = db.reply;
 
 
-exports.registerUser = async (req, res) => {
+const User = require('../models/user');
 
-    try {
+
+exports.registerUser = async(req, res) => {
+       try {
         const { name, email, password } = req.body;
         
         if (!(name && email && password)) {
@@ -49,6 +46,8 @@ exports.registerUser = async (req, res) => {
    }     
 }
 
+
+
 exports.loginUser = async(req, res) => {
     try {
         const { email, password } = req.body;
@@ -64,7 +63,7 @@ exports.loginUser = async(req, res) => {
             const validPassword = await bcrypt.compare(password, user.password);
             if (validPassword) {
                 
-                  const token = jwt.sign( { userId: user.id, email },
+                  const token = jwt.sign( { user_id: user.id, email },
                        process.env.TOKEN_KEY,
                       {
                     expiresIn: '2h'
@@ -73,8 +72,8 @@ exports.loginUser = async(req, res) => {
                         user.token = token;
 
                         const dataResponse = {
-                            id: user.id,
-                            name: user.name,
+                            userId: user.id,
+                            userName: user.name,
                             token: user.token
                         }
 
@@ -90,62 +89,12 @@ exports.loginUser = async(req, res) => {
 }
 
 
-
-exports.getUser = async(req, res, next) => {
+exports.deleteUser = async(req, res) => {
     const { id } = req.params;
     try {
-        const user = await User.findOne({ where: { id: id } });
-        res.status(200).json(user)
-       
+         await User.destroy({ where: { id: id } });
+         res.sendStatus(201);
     } catch (error) {
         res.status(500).send(error.message)
-   }
-}
-
-exports.deleteUser = async(req, res, next) => {
-    const { id } = req.params;
-
-    try {
-        await User.destroy({ where: { id: id } });
-        res.status(201).send('Sucessfully Deleted');
-    } catch (error) {
-        res.status(500).send(error)
-    }
-}
-
-
-exports.getUserTopic = async (req, res) => {
-    const { id } = req.params;
-    try {
-
-        const topic = await Topic.findOne({ 
-            include: [{
-                model: 'Topic',
-                as: 'topic'
-            }],
-            where: {id: id}
-        })
-        res.status(200).send(topic)
-    } catch (error) {
-        res.status(404).send(error.message)
-    }
-}
-
-
-exports.getUserReply = async (req, res) => {
-    const { id } = req.params;
-    try {
-
-        const reply = await Reply.findOne({
-            include: [{
-                model: 'Replay',
-                as: 'reply'
-            }],
-            where: { id: id }
-        });
-
-        res.status(200).send(reply)
-    } catch (error) {
-        res.status(404).send(error.message)
     }
 }
