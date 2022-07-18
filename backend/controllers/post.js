@@ -11,16 +11,17 @@ exports.getAllPosts = async(req, res) => {
 
 
 exports.createPost = async (req, res) => {
-    console.log(req.body)
     const { title, content } = req.body;
+    const url = req.protocol + '://' + 'localhost:4000';
 
     try {
-        const newPost = await Post.create({
+        const post = new Post({
             title: title,
-            content: content
+            content: content,
+            imageUrl : url + '/images/' + req.file.filename
         });
-        console.log(newPost)
-        res.status(201).json(newPost);
+        const newPost = await post.save();
+        res.status(201).send(newPost);
     } catch (error) {
         res.status(500).send(error.message);
     }
@@ -28,12 +29,23 @@ exports.createPost = async (req, res) => {
 
 
 exports.updatePost = async(req, res) => {
-    const { title, content } = req.body;
+    const { title, content, imageUrl } = req.body;
     const { id } = req.params;
+     const url = req.protocol + '://' + 'localhost:4000';
+    let post = new Post({ where: { id: id } });
 
-    const post = {
+    if (req.file) {
+        post =  {
         title: title,
-        content: content
+        content: content,
+        imageUrl: url + '/images/' + req.file.filename
+    }
+    } else {
+        post =  {
+        title: title,
+        content: content,
+        imageUrl: imageUrl
+    }
     }
     
     try {

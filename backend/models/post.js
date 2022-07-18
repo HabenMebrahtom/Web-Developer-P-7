@@ -3,10 +3,12 @@ const sequelize = require('../db');
 
 
 const Post =  sequelize.define('post', {
-    id: { type: DataTypes.UUID, primaryKey: true, defaultValue: DataTypes.UUIDV4 },
+    id: { type: DataTypes.UUID, primaryKey: true, allowNull: false, defaultValue: DataTypes.UUIDV4  },
     title: { type: DataTypes.STRING, allowNull: false },
     content: { type: DataTypes.STRING, allowNull: false },
-    //imageUrl: { type: DataTypes.STRING}
+    imageUrl: { type: DataTypes.STRING}
+}, {
+    timestamps: false,
 });
 
 
