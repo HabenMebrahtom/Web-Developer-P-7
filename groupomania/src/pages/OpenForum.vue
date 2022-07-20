@@ -4,7 +4,7 @@
 
 <script>
 
-import ModalForm from "./ModalForm.vue";
+import ModalForm from "../components/ModalForm.vue";
 
 export default {
    name: 'OpenForum',

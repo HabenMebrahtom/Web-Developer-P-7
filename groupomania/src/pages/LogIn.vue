@@ -113,7 +113,7 @@ export default {
         this.$router.push('/forum');
       }
 
-      console.log(response.data)
+      console.log(response.data.id)
        
       }
         }

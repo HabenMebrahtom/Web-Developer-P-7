@@ -1,5 +1,17 @@
 const Post = require('../models/post');
 
+
+exports.getSinglePost = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const post = await Post.findOne({ where: { id: id } });
+        res.status(200).json(post);
+    } catch (error) {
+        res.status(500).send(error.message)
+    }
+}
+
 exports.getAllPosts = async(req, res) => {
     try {
         const post = await Post.findAll();
@@ -28,32 +40,36 @@ exports.createPost = async (req, res) => {
 }
 
 
-exports.updatePost = async(req, res) => {
-    const { title, content, imageUrl } = req.body;
+exports.updatePost = async (req, res) => {
     const { id } = req.params;
-     const url = req.protocol + '://' + 'localhost:4000';
-    let post = new Post({ where: { id: id } });
+    const { title, content, imageUrl } = req.body;
+    let post = new Post({ where: { id: req.params.id } });
 
     if (req.file) {
-        post =  {
-        title: title,
-        content: content,
-        imageUrl: url + '/images/' + req.file.filename
-    }
+        const url = req.protocol + '://' + 'localhost:4000';
+        post = {
+           id: id,
+           title: title,
+           content: content,
+           imageUrl: url + '/images/' + req.file.filename
+        }
     } else {
-        post =  {
-        title: title,
-        content: content,
-        imageUrl: imageUrl
-    }
+        post = {
+            id: id,
+            title: title,
+            content: content,
+            imageUrl: imageUrl
+         }
     }
     
     try {
-        const updatedPost = await Post.updateOne({where: {id: id}}, post)
+        const updatedPost = await Post.update(post, { where: { id: id} });
         res.status(201).json(updatedPost);
 
     } catch (error) {
-        res.sendStatus(500)
+        console.log(error);
+        res.status(500).send(error.message);
+
     }
 }
 
@@ -64,10 +80,10 @@ exports.deletePost = async (req, res) => {
 
     try {
         const deletedPost = await Post.destroy({ where: { id: id } });
-        res.status(201).send(deletedPost)
+        res.status(200).json(deletedPost)
 
     } catch (error) {
-        res.sendStatus(500)
+        res.status(500).send(error.message)
     }
 
 }

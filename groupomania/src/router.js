@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import LogIn from "./pages/LogIn.vue"
 import SignUp from "./pages/SignUp.vue"
 import LandingPage from "./pages/LandingPage.vue"
-import forum from "./components/OpenForum.vue"
+import forum from "./pages/OpenForum.vue"
 
 const routes = [
      { path: "/", name: 'LandingPage', component: LandingPage },

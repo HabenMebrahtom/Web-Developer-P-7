@@ -5,6 +5,7 @@ require('dotenv').config();
 
 
 const User = require('../models/user');
+const Post = require('../models/post');
 
 
 exports.registerUser = async(req, res) => {
@@ -39,8 +40,7 @@ exports.registerUser = async(req, res) => {
          
            user.token = token
 
-        res.status(201).send(user);  
-        console.log(user)
+        res.status(201).send(user);
     } catch (error) {
         res.status(500).send(error.message)
    }     
@@ -72,7 +72,7 @@ exports.loginUser = async(req, res) => {
                         user.token = token;
 
                         const dataResponse = {
-                            userId: user.id,
+                            id: user.id,
                             userName: user.name,
                             token: user.token
                         }
@@ -98,3 +98,16 @@ exports.deleteUser = async(req, res) => {
         res.status(500).send(error.message)
     }
 }
+
+
+/*exports.getUserPost = async(req, res) => {
+    const { id } = req.params;
+
+    const data = await User.findOne({
+        include: {
+            model: Post,
+            as: 'post'
+        },
+        where: {id: id}
+    })
+}*/
