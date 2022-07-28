@@ -8,7 +8,7 @@
                 <div class="mb-md-3 mt-md-2 pb-5">
                   <h2 class="fw-bold mb-2 text-uppercase">Login</h2>
                   <p class="text-dark-50 mb-5">Please enter your email and password!</p>
-                  <form @submit.prevent="onLogin()">
+                  <form @submit.prevent="onLogin()" class="mx-auto">
                       <div class="form-outline form-white mb-4">
                         <input 
                           type="email"
@@ -68,7 +68,7 @@
 
 import axios from 'axios';
 import Validations from '../services/Validations.js';
-import '../axios'
+
  
 export default {
 
@@ -104,7 +104,7 @@ export default {
           password: this.password
       }
  
-      const response = await axios.post('/auth/login', userInput)
+      const response = await axios.post('http://localhost:4000/api/auth/login', userInput)
 
     
       if (response.status === 201) {
@@ -112,8 +112,6 @@ export default {
         localStorage.setItem('userId', response.data.id);
         this.$router.push('/forum');
       }
-
-      console.log(response.data.id)
        
       }
         }

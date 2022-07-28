@@ -8,6 +8,26 @@ const User = require('../models/user');
 const Post = require('../models/post');
 
 
+exports.getAllUsers = async (req, res) => {
+    try {
+        const users = await User.findAll();
+        res.status(200).send(users);
+    } catch(error) {
+        res.status(404).send(error.message);
+   }
+}
+
+exports.getSingleUser = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const user = await User.findOne({ where: { id: id } });
+        res.status(200).json(user);
+    } catch (error) {
+        res.status(404).send(error.message)
+    }
+}
+
+
 exports.registerUser = async(req, res) => {
        try {
         const { name, email, password } = req.body;
@@ -100,7 +120,7 @@ exports.deleteUser = async(req, res) => {
 }
 
 
-/*exports.getUserPost = async(req, res) => {
+exports.getUserPost = async(req, res) => {
     const { id } = req.params;
 
     const data = await User.findOne({
@@ -110,4 +130,4 @@ exports.deleteUser = async(req, res) => {
         },
         where: {id: id}
     })
-}*/
+}

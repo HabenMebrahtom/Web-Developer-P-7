@@ -1,6 +1,6 @@
 const Post = require('../models/post');
 
-
+//get a single post
 exports.getSinglePost = async (req, res) => {
     const { id } = req.params;
 
@@ -12,6 +12,8 @@ exports.getSinglePost = async (req, res) => {
     }
 }
 
+//get all posts
+
 exports.getAllPosts = async(req, res) => {
     try {
         const post = await Post.findAll();
@@ -21,16 +23,18 @@ exports.getAllPosts = async(req, res) => {
     }
 }
 
-
+//create a new post
 exports.createPost = async (req, res) => {
-    const { title, content } = req.body;
+    console.log(req.body);
+    const { title, content, userId } = req.body;
     const url = req.protocol + '://' + 'localhost:4000';
 
     try {
         const post = new Post({
             title: title,
             content: content,
-            imageUrl : url + '/images/' + req.file.filename
+            imageUrl: url + '/images/' + req.file.filename,
+            userId: userId
         });
         const newPost = await post.save();
         res.status(201).send(newPost);
@@ -39,7 +43,7 @@ exports.createPost = async (req, res) => {
     }
 }
 
-
+//updating a post
 exports.updatePost = async (req, res) => {
     const { id } = req.params;
     const { title, content, imageUrl } = req.body;
@@ -73,7 +77,7 @@ exports.updatePost = async (req, res) => {
     }
 }
 
-
+//delete a post
 exports.deletePost = async (req, res) => {
 
     const { id } = req.params;

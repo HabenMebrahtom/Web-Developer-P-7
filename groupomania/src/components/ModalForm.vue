@@ -1,7 +1,7 @@
 <template>
    <section>
       <!-- Button trigger modal -->
-      <button type="button" class="btn modal-btn me-4 mt-5" data-bs-toggle="modal" data-bs-target="#postModal">
+      <button type="button" class="btn modal-btn" data-bs-toggle="modal" data-bs-target="#postModal">
         New Post
       </button>
 
@@ -24,15 +24,15 @@
                     </div>
             </div>
             <div class="modal-footer">
-               <!--
                  <label for="uploadImage"> <i class="fa-solid fa-image fa-3x"></i></label>
                <input 
-                  name="image"
+                  name="imageUrl"
                   type="file" 
+                  @change.prevent="handleFileUpload($event)"
                   class="form-control rounded upload" 
-                  id="uploadImage">
-               -->
-               <button type="button" class="btn post-btn" @click.prevent="onSubmit()" >Save</button>
+                  id="uploadImage"
+                  ref="file">
+               <button type="button" class="btn post-btn" @click.prevent="onSubmit()">Save</button>
                <button type="button" class="btn bg-danger" data-bs-dismiss="modal">Close</button>
             </div>
          </div>
@@ -43,19 +43,25 @@
 
 <script>
 import axios from 'axios';
-require('../axios')
+
 
 export default {
     name: 'ModalForm',
     data () {
         return {
             errors: [],
-            title: '',
-            content: '',
-            image: '',
+            title: null,
+            content: null,
+            imageUrl: null, 
+            userId: null
            }
     },
     methods: {
+
+        handleFileUpload(event) {
+            const file = event.target.files[0];
+            this.imageUrl = file;
+        },
         async onSubmit() {
             /*if (!this.title) {
                 this.errors['title'] = 'You must write the title'
@@ -68,14 +74,19 @@ export default {
             if ('title' in this.errors || 'content' in this.errors) {
                 return false
             } */
+            const id = localStorage.getItem('userId');
+            const token = localStorage.getItem('token');
             
-            const newPost = {
-                title: this.title,
-                content: this.content,
-                image: this.image
-            }
-
-            const responseData = await axios.post('/topic', newPost);
+            const formData = new FormData();
+            formData.append("imageUrl", this.imageUrl);
+            formData.append("title", this.title);
+            formData.append("content", this.content);
+            formData.append("userId", id);
+            const responseData = await axios.post('http://localhost:4000/api/posts', formData, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
             console.log(responseData.data)
 
         }
@@ -86,11 +97,11 @@ export default {
 <style>
 
   .modal-btn {
-   float: right;
-   width: 150px;
-   height: 50px;
-   background-color:rgb(5, 126, 126);
-   color: white;
+    float: right;
+    width: 150px;
+    height: 40px;
+    background-color:rgb(5, 126, 126);
+    color: white;
   }
    textarea {
       width: 100%;

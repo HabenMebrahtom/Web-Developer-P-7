@@ -1,52 +1,60 @@
 <template>
       <div id="nav" class="d-flex justify-content-between align-items-center px-5">
           <div >
-              <router-link to="/" class="navbar ml-5" v-if="!user">
+              <router-link to="/login" class="navbar ml-5" >
                  <img src="../assets/icon-left-font-monochrome-black.png" alt="Groupomania logo">
               </router-link>
-              <div v-else class="navbar">
+              <div class="navbar">
                  <img src="../assets/icon-left-font-monochrome-black.png" alt="Groupomania logo">
               </div>
           </div>
-          <div v-if="!user">
+          <div>
               <router-link to="/login" class="link" >Log in</router-link>
               <router-link  to="/signup" class="link" >Sign up</router-link>
           </div>
-          <div v-else >
-              <img src="../assets/discussion.jpg" class="profile-image ml-5" alt="Proile image">
-             <router-link  to="/login" class="link" @click.prevent="handleSubmit">Log out</router-link>
+          <div >
+            <!--
+               <router-link  to="/login" class="link" @click.prevent="handleSubmit">Log out</router-link>
+            -->  
           </div>  
      </div>
 </template>
 
 
 <script>
+
 export default {
     name: 'NavHeader',
-    props: ['user'], 
+  data() {
+    return {
+        user: null
+      }
+    }, 
     methods: {
       handleSubmit() {
         localStorage.clear();
         this.$router.replace('/login');
-        location.reload()
-      }   
+      },
+      
+    
+  }   
            
     }
-   }
+   
 </script>
 
 
 <style>
 
 #nav {
-  height:  150px;
+  height:  100px;
   color: black;
   background-color: rgb(25, 237, 237);
 }
 
 .navbar img {
-  width: 250px;
-  height: 200px;
+  width: 150px;
+  height: 150px;
 }
 
   .link {

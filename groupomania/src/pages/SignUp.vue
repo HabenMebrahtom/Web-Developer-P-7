@@ -115,9 +115,10 @@ h3 {
    
 <script>
 
-import axios from 'axios';
 import Validations from '../services/Validations.js';
-require('../axios')
+import { SIGNUP_ACTION } from '@/store/storeConstant.js';
+import { mapActions } from 'vuex';
+
 
 export default {
    data() {
@@ -126,57 +127,52 @@ export default {
          name: '',
          email: '',
          password: '',
-               
-            }
+
+      }
    },
    methods: {
 
-     async onSignup() {
-         if (!this.name) {
-         this.errors['name'] = "You must write your name"
-         }
-       
-       if(!this.email) {
-             this.errors['email'] = 'Email Required';
-        } else if(!Validations.checkEmail(this.email)) {
-            this.errors['email'] = 'Invalid Email';
-      }
+      ...mapActions('auth', {
+         signup: SIGNUP_ACTION
+      }),
 
-        if(!this.password) {
+      async onSignup() {
+         if (!this.name) {
+            this.errors['name'] = "You must write your name"
+         }
+
+         if (!this.email) {
+            this.errors['email'] = 'Email Required';
+         } else if (!Validations.checkEmail(this.email)) {
+            this.errors['email'] = 'Invalid Email';
+         }
+
+         if (!this.password) {
             this.errors['password'] = 'Password Required';
-        } else if (!Validations.minLength(this.password, 6)) {
+         } else if (!Validations.minLength(this.password, 6)) {
             this.errors['password'] = "Your password must be more than 6 characters";
          }
 
-      /*  if (!this.repeatedPassword) {
-         this.errors['repeatedPassword'] = "Repeat your password"
-         } else if (this.password !== this.repeatedPassword) {
-             this.errors['repeatedPassword'] = "Repeat your password correctly"
-      }*/
+         /*  if (!this.repeatedPassword) {
+            this.errors['repeatedPassword'] = "Repeat your password"
+            } else if (this.password !== this.repeatedPassword) {
+                this.errors['repeatedPassword'] = "Repeat your password correctly"
+         }*/
 
-        
+
          if ('name' in this.errors ||
             'email' in this.errors ||
-            'password' in this.errors ){
-         return false
-         } 
-            
-         try {
-            const response = await  axios.post('/auth/signup', {
-                  name: this.name,
-                  email: this.email,
-                  password: this.password
-                  })
-            console.log(response.data)
+            'password' in this.errors) {
+            return false
+         }
 
-              if (response.status === 201) {
-               this.$router.push('/login')
-            }
-         } catch (error) {
-            console.log(error.message)
-          }
-
-         }    
+         this.signup({
+            name: this.name,
+            email: this.email,
+            password: this.password
+         })
       }
-      };
+   }
+};
+   
 </script>
