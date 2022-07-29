@@ -93,7 +93,7 @@ exports.loginUser = async(req, res) => {
 
                         const dataResponse = {
                             id: user.id,
-                            userName: user.name,
+                            name: user.name,
                             token: user.token
                         }
 
