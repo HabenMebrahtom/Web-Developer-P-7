@@ -1,42 +1,41 @@
 import React from 'react';
-//import { NavLink} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 
 function Header() {
   return (
-    <nav class="navbar navbar-expand-lg navbar-light bg-dark">
-        <div class="container">
-          <div class="navbar-brand me-auto mb-2 mb-lg-0">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div className="container">
+          <div className="navbar-brand">
             <img
-                src={require('../assets/icon-left-font-monochrome-white.png')}
-                height="150"
-                width="150"
+                src={require('../assets/icon-left-font-monochrome-black.png')}
+                height="200"
+                width="200"
                 alt="Groupomania Logo"
                 loading="lazy"   
             />
             </div>
 
             <button
-            class="navbar-toggler"
-            type="button"
-            data-mdb-toggle="collapse"
-            data-mdb-target="#navbarButtonsExample"
-            aria-controls="navbarButtonsExample"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-            >
-            <i class="fas fa-bars"></i>
-            </button>
-
-            <div class="d-flex align-items-center">
-                <button type="button" class="btn btn-primary px-3 me-2">
-                Login
-                </button>
-                <button type="button" class="btn btn-primary me-3">
-                Sign up 
-                </button>
-            </div>
-            </div>
+                className="navbar-toggler"
+                type="button"
+                data-mdb-toggle="collapse"
+                data-mdb-target="#navbarLinks"
+                aria-controls="navbarLinks"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+                >
+                <i className="fas fa-bars"></i>
+            </button> 
+                <div class="d-flex align-items-center">
+                    <Link to="/login" type="button" className="btn btn-primary px-3 me-2">
+                    Login
+                    </Link>
+                    <Link  to="/register" type="button" className="btn btn-primary me-3">
+                    Sign up 
+                    </Link>
+                </div>
+        </div>
     </nav>
     
   )
