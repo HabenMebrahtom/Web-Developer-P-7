@@ -11,17 +11,6 @@ const User = sequelize.define('user', {
      token: { type: DataTypes.STRING }
 });
 
-User.hasMany(Post, {
-    foreignKey: 'userId',
-    as: 'post'
-});
-
-Post.belongsTo(User, {
-    foreignKey: 'userId',
-    as: 'user'
-});
-
-
 module.exports = User;
 
 

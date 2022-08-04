@@ -118,16 +118,3 @@ exports.deleteUser = async(req, res) => {
         res.status(500).send(error.message)
     }
 }
-
-
-exports.getUserPost = async(req, res) => {
-    const { id } = req.params;
-
-    const data = await User.findOne({
-        include: {
-            model: Post,
-            as: 'post'
-        },
-        where: {id: id}
-    })
-}

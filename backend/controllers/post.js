@@ -1,4 +1,5 @@
 const Post = require('../models/post');
+const Comment = require('../models/comment');
 
 //get a single post
 exports.getSinglePost = async (req, res) => {
@@ -90,4 +91,21 @@ exports.deletePost = async (req, res) => {
         res.status(500).send(error.message)
     }
 
+}
+
+
+//conntct post with  comment
+
+exports.getPostComment = async(req, res) => {
+    const { id } = req.params;
+
+    const data = await Post.findOne({
+        include: [{
+            model: Comment,
+            as: 'comment'
+        }],
+        where: {id: id}
+    })
+     
+    res.status(200).send(data)
 }
