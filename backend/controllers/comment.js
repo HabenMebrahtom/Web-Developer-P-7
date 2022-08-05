@@ -14,13 +14,14 @@ exports.getAllComments = async (req, res) => {
 
 
 exports.createComment = async (req, res) => {
-    const { comment } = req.body;
+    const { userId, comment } = req.body;
     const { id } = req.params;
     
     try {
         const newComment = await Comment.create({
+            userId: userId,
             postId: id,
-            comment: comment,
+            comment: comment
         });
 
         res.status(201).send(newComment);

@@ -9,7 +9,10 @@ const Post =  sequelize.define('post', {
     content: { type: DataTypes.STRING, allowNull: false },
     imageUrl: { type: DataTypes.STRING, allowNull: true },
     userId: {type: DataTypes.STRING, allowNull: false}
-});
+},
+    {
+        timestamps: false
+    });
 
 
 

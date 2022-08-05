@@ -16,8 +16,8 @@ postRouter.delete('/:id', auth, postControllers.deletePost);
 
 //Comment controllers
 
-postRouter.get('/comments', auth, commentControllers.getAllComments);
-postRouter.post('/addComment/:id', auth, commentControllers.createComment);
+postRouter.get('/comments', commentControllers.getAllComments);
+postRouter.post('/addComment/:id', commentControllers.createComment);
 
 //get post comment
 
