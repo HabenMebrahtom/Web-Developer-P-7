@@ -45,7 +45,7 @@ function Register() {
     }
 
     return (
-       <section class="vh-100">
+       <section className="vh-100">
             <div className="container h-100">
                 <div className="row d-flex justify-content-center align-items-center h-100">
                 <div className="col-lg-12 col-xl-11">
@@ -60,7 +60,7 @@ function Register() {
 
                             <div className="d-flex flex-row align-items-center mb-4">
                                 <div className="form-outline flex-fill mb-0">
-                                <label className="form-label" for="fullname">Your Name</label>                              
+                                <label className="form-label" htmlFor="fullname">Your Name</label>                              
                                 <input
                                     type="text"
                                     id="fullname"
@@ -75,7 +75,7 @@ function Register() {
 
                             <div className="d-flex flex-row align-items-center mb-4">
                             <div className="form-outline flex-fill mb-0">
-                                <label className="form-label" for="email">Your Email</label>
+                                <label className="form-label" htmlFor="email">Your Email</label>
                                 <input
                                     type="email"
                                     id="email"
@@ -90,7 +90,7 @@ function Register() {
 
                             <div className="d-flex flex-row align-items-center mb-4">
                                 <div className="form-outline flex-fill mb-0">
-                                    <label className="form-label" for="password">Password</label>
+                                    <label className="form-label" htmlFor="password">Password</label>
                                     <input
                                         type="password"
                                         id="password"

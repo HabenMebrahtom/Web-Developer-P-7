@@ -31,29 +31,30 @@ const Login = () => {
         console.log(response.data);
 
          if (response.status === 201) {
-                localStorage.setItem('token', response.data.token);
-                localStorage.setItem('userId', response.data.id)
-                navigate('/landingpage')
+             localStorage.setItem('user', JSON.stringify(response.data));
+             localStorage.setItem('token', JSON.stringify(response.data.token));
+             navigate('/home');
+             window.location.reload()
             }
     }
 
     
   return (
-       <section class="vh-100  bg-secondary">
-        <div class="container py-5 h-100">
-            <div class="row d-flex justify-content-center align-items-center h-100">
-            <div class="col-12 col-md-8 col-lg-6 col-xl-5">
-                <div class="card shadow-2-strong">
-                <div class="card-body p-5 text-center">
+       <section className="vh-100  bg-secondary">
+        <div className="container py-5 h-100">
+            <div className="row d-flex justify-content-center align-items-center h-100">
+            <div className="col-12 col-md-8 col-lg-6 col-xl-5">
+                <div className="card shadow-2-strong">
+                <div className="card-body p-5 text-center">
 
-                    <h3 class="mb-5">Sign in</h3>
+                    <h3 className="mb-5">Sign in</h3>
 
-                    <div class="form-outline mb-4">
+                    <div className="form-outline mb-4">
                     <input
                         type="email"
                         id="email"
                         name="email"
-                        class="form-control form-control-lg"
+                        className="form-control form-control-lg"
                         placeholder='Email'
                         value={values.email}
                         onChange={handleChange}
@@ -61,11 +62,11 @@ const Login = () => {
                     {errors.email && <p className='text-danger'>{errors.email}</p>}        
                     </div>
 
-                    <div class="form-outline mb-4">
+                    <div className="form-outline mb-4">
                         <input
                             type="password"
                             id="password"
-                            class="form-control form-control-lg"
+                            className="form-control form-control-lg"
                             placeholder='Password'
                             name= 'password'
                             value={values.password}
@@ -74,7 +75,7 @@ const Login = () => {
                         {errors.password && <p className='text-danger'>{errors.password}</p>} 
                     </div>
 
-                    <button class="btn btn-primary btn-lg btn-block" type="submit" onClick={handleSubmit}>Login</button>
+                    <button className="btn btn-primary btn-lg btn-block" type="submit" onClick={handleSubmit}>Login</button>
 
                 </div>
                 </div>

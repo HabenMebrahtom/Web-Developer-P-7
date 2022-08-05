@@ -1,44 +1,52 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link} from 'react-router-dom';
+import { Container, Nav, Navbar, Image } from 'react-bootstrap';
+import "./Header.css"
 
 
-function Header() {
+const Header = () => {
+
+    const user = JSON.parse(localStorage.getItem('user'))
+    const navigate = useNavigate();
+
+    const logOut = () => {
+        localStorage.clear();
+        navigate('/login');
+        window.location.reload();
+    }
   return (
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div className="container">
-          <div className="navbar-brand">
-            <img
-                src={require('../assets/icon-left-font-monochrome-black.png')}
-                height="200"
-                width="200"
-                alt="Groupomania Logo"
-                loading="lazy"   
-            />
-            </div>
-
-            <button
-                className="navbar-toggler"
-                type="button"
-                data-mdb-toggle="collapse"
-                data-mdb-target="#navbarLinks"
-                aria-controls="navbarLinks"
-                aria-expanded="false"
-                aria-label="Toggle navigation"
-                >
-                <i className="fas fa-bars"></i>
-            </button> 
-                <div class="d-flex align-items-center">
-                    <Link to="/login" type="button" className="btn btn-primary px-3 me-2">
-                    Login
-                    </Link>
-                    <Link  to="/register" type="button" className="btn btn-primary me-3">
-                    Sign up 
-                    </Link>
-                </div>
-        </div>
-    </nav>
-    
-  )
+    <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+      <Container>
+            <Navbar.Brand >
+                <Image
+                    src={require('../assets/icon-left-font-monochrome-white.png')}
+                    height="200"
+                    width="200"
+                    alt="Groupomania Logo"
+                    loading="lazy"  ></Image>
+            </Navbar.Brand>
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse id="responsive-navbar-nav" className="justify-content-end">
+        <Nav >
+            {
+                !user ? 
+                    <>
+                        <Nav.Link as={Link} to="/register" className="fs-6 fw-bold text-light mr-3">Sign up</Nav.Link>
+                        <Nav.Link as={Link} to="/login" className="fs-6 fw-bold text-light">Log in</Nav.Link>
+                    </>  
+                    : 
+                    <>
+                        <Nav.Link onClick={logOut} className="link-item fs-6 fw-bold text-light">
+                            Log out
+                        </Nav.Link>  
+                    </>
+            }
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
+  );
 }
+
 
 export default Header
