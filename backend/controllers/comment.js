@@ -2,29 +2,18 @@ const Comment = require('../models/comment');
 
 
 
-exports.getAllComments = async (req, res) => {
-    try {
-        const comments = await Comment.findAll();
-        res.status(200).send(comments);
-    } catch (error) {
-        res.status(404).send(error.message);
-    }
-}
-
-
-
 exports.createComment = async (req, res) => {
-    const { userId, comment } = req.body;
+    const { comment } = req.body;
     const { id } = req.params;
     
     try {
-        const newComment = await Comment.create({
-            userId: userId,
-            postId: id,
-            comment: comment
+        let newComment = await Comment.create({
+            comment: comment, 
+            postId: id
         });
 
-        res.status(201).send(newComment);
+        console.log(newComment);
+        res.status(201).json(newComment);
 
     } catch (error) {
         res.status(400).send(error.message)

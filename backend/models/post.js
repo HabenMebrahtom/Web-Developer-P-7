@@ -8,23 +8,23 @@ const Post =  sequelize.define('post', {
     title: { type: DataTypes.STRING, allowNull: false },
     content: { type: DataTypes.STRING, allowNull: false },
     imageUrl: { type: DataTypes.STRING, allowNull: true },
-    userId: {type: DataTypes.STRING, allowNull: false}
+
 },
     {
         timestamps: false
-    });
+    }
+);
 
 
 
 Post.hasMany(Comment, {
-    foreignKey: 'id',
     as: 'comment'
 });
 
 Comment.belongsTo(Post, {
-    foreignKey: 'postId',
     as: 'post'
-});
+}
+);
 
 
 sequelize.authenticate()

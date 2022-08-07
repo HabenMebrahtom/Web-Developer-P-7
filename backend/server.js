@@ -3,6 +3,8 @@ const cors = require('cors');
 const path = require('path');
 const userRouter = require('./router/user');
 const postRouter = require('./router/post');
+const commentRouter = require('./router/comment');
+
 
 const app = express();
 const PORT = 4000;
@@ -15,6 +17,8 @@ app.use(cors());
 
 app.use('/api/auth', userRouter);
 app.use('/api/posts', postRouter);
+app.use('/api/comments', commentRouter);
+
 
 app.listen(PORT, () => {
     console.log(`The server is listening on port: ${PORT}`)

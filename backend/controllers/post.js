@@ -6,7 +6,11 @@ exports.getSinglePost = async (req, res) => {
     const { id } = req.params;
 
     try {
-        const post = await Post.findOne({ where: { id: id } });
+        const post = await Post.findOne({
+            include: [{
+            model: Comment,
+            as: 'comment'
+        }], where: { id: id } });
         res.status(200).json(post);
     } catch (error) {
         res.status(500).send(error.message)
@@ -17,7 +21,12 @@ exports.getSinglePost = async (req, res) => {
 
 exports.getAllPosts = async(req, res) => {
     try {
-        const post = await Post.findAll();
+        const post = await Post.findAll({
+            include: [{
+                model: Comment,
+                as: 'comment'
+            }],
+        });
         res.status(200).json(post)
     } catch (error) {
         res.status(500).send(error.message);
@@ -26,7 +35,6 @@ exports.getAllPosts = async(req, res) => {
 
 //create a new post
 exports.createPost = async (req, res) => {
-    console.log(req.body);
     const { title, content, userId } = req.body;
     const url = req.protocol + '://' + 'localhost:4000';
 
@@ -38,8 +46,10 @@ exports.createPost = async (req, res) => {
             userId: userId
         });
         const newPost = await post.save();
+        console.log(newPost)
         res.status(201).send(newPost);
     } catch (error) {
+        console.log(error)
         res.status(500).send(error.message);
     }
 }
@@ -91,21 +101,4 @@ exports.deletePost = async (req, res) => {
         res.status(500).send(error.message)
     }
 
-}
-
-
-//connected post with  comment
-
-exports.getPostComment = async(req, res) => {
-    const { id } = req.params;
-
-    const data = await Post.findOne({
-        include: [{
-            model: Comment,
-            as: 'comment'
-        }],
-        where: {id: id}
-    })
-     
-    res.status(200).send(data)
 }
