@@ -18,7 +18,6 @@ function ModalForm() {
         event.preventDefault();
         
         const url = 'http://localhost:4000/api/posts/';
-        const token = JSON.parse(localStorage.getItem('token'));
         const user = JSON.parse(localStorage.getItem('user'));
 
         const formData = new FormData();
@@ -30,7 +29,7 @@ function ModalForm() {
 
         const response = await axios.post(url, formData, {
               headers: {
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${user.token}`
             } 
         })
 

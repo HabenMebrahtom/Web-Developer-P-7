@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react';
+import {Link} from 'react-router-dom'
 import axios from 'axios';
+import './DisplayPosts.css';
 
 function DisplayPosts() {
 
     const [posts, setPosts] = useState([]);
 
     const fetchData = async () => {
-        const token = JSON.parse(localStorage.getItem('token'))
+        const user = JSON.parse(localStorage.getItem('user'))
         const response = await axios.get('http://localhost:4000/api/posts/', {
             headers: {
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${user.token}`
             }
         });
         setPosts(response.data)
@@ -24,9 +26,11 @@ function DisplayPosts() {
         <>
             {posts.map(post => {
                 return (
-                    <div className="card my-4 mx-5 " key={post.id}>
+                    <div  className="card my-4 mx-5 w-75" key={post.id}>
                         <div className="card-body">
-                            <h5 className="card-title">{post.title}</h5>
+                            <Link to={`/post?id=${post.id}`} className="link">
+                                <h5 className="card-title">{post.title}</h5>
+                            </Link>
                             <p className="card-text">{post.content}</p>
                         </div>
                     </div>
