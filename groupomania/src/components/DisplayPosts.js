@@ -6,6 +6,7 @@ import './DisplayPosts.css';
 function DisplayPosts() {
 
     const [posts, setPosts] = useState([]);
+    const [visited, setVisited] = useState(false);
 
     const fetchData = async () => {
         const user = JSON.parse(localStorage.getItem('user'))
@@ -18,6 +19,11 @@ function DisplayPosts() {
         console.log(response.data)
     }
 
+
+    const linkVisited = () => {
+        setVisited(true);
+    }
+
     useEffect(() => {
         fetchData()
     }, [])
@@ -26,10 +32,10 @@ function DisplayPosts() {
         <>
             {posts.map(post => {
                 return (
-                    <div  className="card my-4 mx-5 w-75" key={post.id}>
+                    <div  className="card my-4 mx-5 w-75" key={post.id} >
                         <div className="card-body">
-                            <Link to={`/post?id=${post.id}`} className="link">
-                                <h5 className="card-title">{post.title}</h5>
+                            <Link to={`/post?id=${post.id}`} className="link h6" onClick={linkVisited} style={{color: visited ? 'red': 'gtreen'}}>
+                                {post.title}
                             </Link>
                             <p className="card-text">{post.content}</p>
                         </div>
