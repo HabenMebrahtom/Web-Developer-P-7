@@ -35,19 +35,31 @@ exports.getAllPosts = async(req, res) => {
 
 //create a new post
 exports.createPost = async (req, res) => {
-    const { title, content, userId } = req.body;
+    const { title, content, userId, isRead } = req.body;
     const url = req.protocol + '://' + 'localhost:4000';
 
     try {
-        const post = new Post({
+        if (req.file) {
+            const post = new Post({
             title: title,
             content: content,
             imageUrl: url + '/images/' + req.file.filename,
-            userId: userId
+            userId: userId,
+            isRead: isRead
+            });
+        const newPost = await post.save();
+         res.status(201).send(newPost);
+        } else {
+          const post = new Post({
+            title: title,
+            content: content,
+            userId: userId,
+            isRead: isRead
         });
         const newPost = await post.save();
-        console.log(newPost)
         res.status(201).send(newPost);
+        }
+        
     } catch (error) {
         console.log(error)
         res.status(500).send(error.message);
@@ -57,7 +69,7 @@ exports.createPost = async (req, res) => {
 //updating a post
 exports.updatePost = async (req, res) => {
     const { id } = req.params;
-    const { title, content, imageUrl } = req.body;
+    const { title, content, imageUrl, isRead } = req.body;
     let post = new Post({ where: { id: req.params.id } });
 
     if (req.file) {
@@ -66,14 +78,16 @@ exports.updatePost = async (req, res) => {
            id: id,
            title: title,
            content: content,
-           imageUrl: url + '/images/' + req.file.filename
+           imageUrl: url + '/images/' + req.file.filename,
+           isRead: isRead
         }
     } else {
         post = {
             id: id,
             title: title,
             content: content,
-            imageUrl: imageUrl
+            imageUrl: imageUrl,
+            isRead: isRead
          }
     }
     
@@ -94,7 +108,9 @@ exports.deletePost = async (req, res) => {
     const { id } = req.params;
 
     try {
-        const deletedPost = await Post.destroy({ where: { id: id } });
+        const deletedPost = await Post.destroy({
+            where: { id: id }
+        });
         res.status(200).json(deletedPost)
 
     } catch (error) {

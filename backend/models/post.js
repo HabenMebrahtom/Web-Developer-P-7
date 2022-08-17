@@ -8,7 +8,8 @@ const Post =  sequelize.define('post', {
     title: { type: DataTypes.STRING, allowNull: false },
     content: { type: DataTypes.STRING, allowNull: false },
     imageUrl: { type: DataTypes.STRING, allowNull: true },
-
+    userId: { type: DataTypes.STRING, allowNull: false },
+    isRead: {type: DataTypes.BOOLEAN}
 },
     {
         timestamps: false
@@ -18,13 +19,14 @@ const Post =  sequelize.define('post', {
 
 
 Post.hasMany(Comment, {
-    as: 'comment'
+    as: 'comment',
+    onDelete: 'CASCADE'
 });
 
 Comment.belongsTo(Post, {
-    as: 'post'
-}
-);
+    as: 'post',
+    onDelete: 'CASCADE'
+});
 
 
 sequelize.authenticate()
