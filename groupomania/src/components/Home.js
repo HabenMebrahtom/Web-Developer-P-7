@@ -6,10 +6,10 @@ import './Home.css'
 function Home() {
   return (
       <section>
-          <div className='sub-header'>
+          <div className='sub-header mb-5'>
             <ModalForm /> 
           </div>
-          <div>
+          <div className='my-5'>
             <DisplayPosts />
           </div>  
       </section>

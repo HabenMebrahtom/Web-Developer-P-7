@@ -1,27 +1,37 @@
 import React, { useEffect, useState } from 'react';
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom';
+import { MdTopic } from 'react-icons/md';
 import axios from 'axios';
 import './DisplayPosts.css';
 
 function DisplayPosts() {
 
     const [posts, setPosts] = useState([]);
-    const [visited, setVisited] = useState(false);
 
+ 
     const fetchData = async () => {
-        const user = JSON.parse(localStorage.getItem('user'))
+           const user = JSON.parse(localStorage.getItem('user'))
         const response = await axios.get('http://localhost:4000/api/posts/', {
             headers: {
                 'Authorization': `Bearer ${user.token}`
             }
         });
         setPosts(response.data)
-        console.log(response.data)
+
     }
+  
+    const handleLink = async (id) => { 
+        const user = JSON.parse(localStorage.getItem('user'))
+        
+        const data = {
+            isRead: true
+        }
 
-
-    const linkVisited = () => {
-        setVisited(true);
+     await axios.put(`http://localhost:4000/api/posts/${id}`, data, {
+                headers: {
+                'Authorization': `Bearer ${user.token}`
+            }
+        })
     }
 
     useEffect(() => {
@@ -32,12 +42,18 @@ function DisplayPosts() {
         <>
             {posts.map(post => {
                 return (
-                    <div  className="card my-4 mx-5 w-75" key={post.id} >
-                        <div className="card-body">
-                            <Link to={`/post?id=${post.id}`} className="link h6" onClick={linkVisited} style={{color: visited ? 'red': 'gtreen'}}>
+                    <div className="media my-2 mx-2 d-flex" key={post.id} >
+                        <div className='icone'>
+                             <MdTopic/>
+                        </div>
+                        <div className="media-body">
+                            <Link to={`/post?id=${post.id}`} className="link h6" onClick={handleLink(post.id)} style={{color: post.isRead ? 'black' : 'blue'}}>
                                 {post.title}
                             </Link>
-                            <p className="card-text">{post.content}</p>
+                            <p>{post.content}</p>
+                        </div>
+                        <div className='float-right'>
+                            {post.isRead ? '': <p>New Post</p>}
                         </div>
                     </div>
                 )

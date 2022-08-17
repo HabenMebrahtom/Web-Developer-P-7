@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useLocation } from "react-router-dom";
+import { AiFillEdit } from "react-icons/ai";
 import axios from 'axios';
 
 
@@ -42,9 +43,9 @@ function UpdatePost() {
 
     return (
         <section className='float-end mr-5'>
-            <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Modal">
-             Edit
-            </button>
+            <div className="text-primary fs-5 fw-bolder" data-bs-toggle="modal" data-bs-target="#Modal">
+               <AiFillEdit />
+            </div>
 
             <div className="modal fade" id="Modal" tabIndex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
             <div className="modal-dialog">

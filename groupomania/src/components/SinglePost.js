@@ -1,5 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { useLocation, Link } from "react-router-dom";
+//import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { AiOutlineArrowLeft } from "react-icons/ai";
 import axios from 'axios';
 import './DisplayPosts.css';
 import CommentForm from './Comment'
@@ -30,24 +32,24 @@ function SinglePost() {
     return (
         <section>
              <div className='btn btn-primary my-3 mx-4'>
-                <Link to="/home" className='float-left text-white link'>
-                    Return to posts
+                <Link to="/home" className='float-left text-white  link'>
+                     <AiOutlineArrowLeft />
                 </Link>
             </div>
-            <div className="row no-gutters bg-light position-relative mt-5 mx-3">
-                < div className="col-md-6 mb-md-0 p-md-4">
-                <img src={post.imageUrl} className="w-75 h-75" alt="post"/>
+            <div className="media border mx-2 p-3">
+                <div className="media-body">
+                    <h5 className="p-1 ">{ post.title }</h5>
+                    <p className='px-2'>{ post.content}</p>
                 </div>
-                <div className="col-md-6 position-static p-4 pl-md-0">
-                    <h5 className="mt-0">{ post.title }</h5>
-                    <p>{ post.content}</p>
+                < div className="mt-2" style={{display: post.imageUrl ? 'block' : 'none'}}>
+                     <img src={post.imageUrl} className="w-100 h-75" alt="post"/>
                 </div>
-                <div className='d-flex float-end'>
+                <div className='d-flex justify-content-end align-items-center mt-3'>
                     <RemovePost />
                     <UpdatePost />
-                </div>
+                  </div>
             </div>
-       <CommentForm/>
+            <CommentForm/>
             
             {
                 

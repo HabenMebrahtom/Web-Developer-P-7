@@ -1,19 +1,37 @@
 import React from 'react';
 import { useNavigate, Link} from 'react-router-dom';
-import { Container, Nav, Navbar, Image } from 'react-bootstrap';
-import "./Header.css"
+import { Container, Nav, Navbar, Image, NavDropdown } from 'react-bootstrap';
+import "./Header.css";
+import axios from 'axios'
 
 
 const Header = () => {
 
-    const user = JSON.parse(localStorage.getItem('user'))
+    const user = JSON.parse(localStorage.getItem('user'));
     const navigate = useNavigate();
 
     const logOut = () => {
         localStorage.clear();
         navigate('/login');
         window.location.reload();
-    }
+  }
+  
+  
+    const deleteAccount = async() => {
+      const user = JSON.parse(localStorage.getItem('user'));
+       await axios.delete(`http://localhost:4000/api/auth/${user.id}`, {
+                  headers: {
+                    'Authorization': `Bearer ${user.token}`
+                  }
+       });
+      localStorage.clear();
+      navigate('/register');
+     }
+
+  
+
+
+  
   return (
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
       <Container>
@@ -35,10 +53,17 @@ const Header = () => {
                         <Nav.Link as={Link} to="/login" className="fs-6 fw-bold text-light">Log in</Nav.Link>
                     </>  
                     : 
-                    <>
-                        <Nav.Link onClick={logOut} className="link-item fs-6 fw-bold text-light">
-                            Log out
-                        </Nav.Link>  
+                    <>  
+                        <NavDropdown
+                            id="nav-dropdown-dark-example"
+                            title={user.name}
+                            menuVariant="dark"
+                          >
+                            <NavDropdown.Item className='fs-6 fw-bold text-light' onClick={logOut}>Log Out</NavDropdown.Item>
+                            <NavDropdown.Item className='fs-6 fw-bold text-light' onClick={deleteAccount} >
+                              Delete Account
+                            </NavDropdown.Item>
+                          </NavDropdown>
                     </>
             }
           </Nav>

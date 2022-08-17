@@ -40,8 +40,8 @@ function Comment() {
                   placeholder="Write your comment"
                   ></textarea>
             </div>
-            <div className="float-end mx-2 pt-1 me-2">
-                <button type="button" className="btn btn-primary btn-sm" onClick={postComment}>Post comment</button>
+            <div className="float-end m-2 pt-1">
+                <button type="button" className="btn btn-primary btn-sm" onClick={postComment}>Save comment</button>
            </div>
     </div>
   )

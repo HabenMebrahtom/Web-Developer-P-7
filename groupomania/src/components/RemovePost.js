@@ -1,5 +1,6 @@
 import React from 'react'
 import { useLocation, useNavigate } from "react-router-dom";
+import { BsFillTrashFill } from "react-icons/bs";
 import axios from 'axios';
 
 function RemovePost() {
@@ -25,7 +26,9 @@ function RemovePost() {
     }
   return (
     <div>
-        <button type='button' className='btn btn-danger mx-1' id="delete-post" onClick={deletePost}>Remove</button>
+      <div className='text-danger mx-3' id="delete-post" onClick={deletePost}>
+        < BsFillTrashFill/>
+      </div>
     </div>
   )
 }

@@ -6,6 +6,7 @@ function ModalForm() {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [image, setImage] = useState('');
+    let isRead = false;
 
 
     const hiddenFileInput = React.useRef(null);
@@ -26,6 +27,7 @@ function ModalForm() {
         formData.append('content', content);
         formData.append('imageUrl', image);
         formData.append('userId', user.id);
+        formData.append('isRead', isRead)
 
         const response = await axios.post(url, formData, {
               headers: {
