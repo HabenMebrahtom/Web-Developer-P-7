@@ -40,9 +40,9 @@ function ModalForm() {
    }
 
     return (
-        <section className='float-end mr-5'>
+        <section className='float-start mr-3'>
             <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Modal">
-            Add New Post
+            Add Discussion
             </button>
 
             <div className="modal fade" id="Modal" tabIndex="-1" aria-labelledby="ModalLabel" aria-hidden="true">

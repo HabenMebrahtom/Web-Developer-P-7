@@ -1,16 +1,13 @@
 .link {
     text-decoration: none;
 }
+.media {
+        width: 95%;
+    }
 
-
-.icone {
-    padding: 5px;
-    width: 30px;
-    height: 30px;
-    border: 1px solid black;
-    border-radius: 50%;
-    margin-right: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+@media screen and (min-width: 480px){
+    .media {
+        width: 80%;
+        text-align: center;
+    }
 }

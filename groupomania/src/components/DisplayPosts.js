@@ -20,19 +20,6 @@ function DisplayPosts() {
 
     }
   
-    const handleLink = async (id) => { 
-        const user = JSON.parse(localStorage.getItem('user'))
-        
-        const data = {
-            isRead: true
-        }
-
-     await axios.put(`http://localhost:4000/api/posts/${id}`, data, {
-                headers: {
-                'Authorization': `Bearer ${user.token}`
-            }
-        })
-    }
 
     useEffect(() => {
         fetchData()
@@ -42,18 +29,18 @@ function DisplayPosts() {
         <>
             {posts.map(post => {
                 return (
-                    <div className="media my-2 mx-2 d-flex" key={post.id} >
-                        <div className='icone'>
+                    <div className="media shadow-lg p-3 bg-body rounded my-3 mx-auto d-flex" key={post.id} >
+                        <div className='me-2 text-primary fs-3'>
                              <MdTopic/>
                         </div>
                         <div className="media-body">
-                            <Link to={`/post?id=${post.id}`} className="link h6" onClick={handleLink(post.id)} style={{color: post.isRead ? 'black' : 'blue'}}>
+                            <Link to={`/post?id=${post.id}`} className="link h6" style={{color: post.isRead ? 'black' : 'blue'}}>
                                 {post.title}
                             </Link>
                             <p>{post.content}</p>
                         </div>
-                        <div className='float-right'>
-                            {post.isRead ? '': <p>New Post</p>}
+                        <div className='ms-auto p-2'>
+                            {post.isRead ? '': <p className='text-info'>New Post</p>}
                         </div>
                     </div>
                 )

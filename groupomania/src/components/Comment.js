@@ -1,6 +1,7 @@
 import React, { useState} from 'react';
 import { useLocation } from "react-router-dom";
 import axios from 'axios';
+import './SinglePost.css'
 
 
 function Comment() {
@@ -30,7 +31,7 @@ function Comment() {
        }
        
   return (
-    <div className="form-outline my-5 mx-3">
+    <div className="form-outline my-5 mx-auto comment">
           <div>
               <textarea
                   className="form-control"
@@ -40,7 +41,7 @@ function Comment() {
                   placeholder="Write your comment"
                   ></textarea>
             </div>
-            <div className="float-end m-2 pt-1">
+            <div className="float-end mx-2 pt-1">
                 <button type="button" className="btn btn-primary btn-sm" onClick={postComment}>Save comment</button>
            </div>
     </div>
