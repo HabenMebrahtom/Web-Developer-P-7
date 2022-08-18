@@ -25,7 +25,6 @@ function SinglePost() {
         }
 
         fetchPost();
-        handleLink();
     }, [id]);
 
     const handleLink = async () => { 
@@ -42,6 +41,9 @@ function SinglePost() {
         })
     }
 
+    useEffect(() => {
+         handleLink();
+    })
 
 
     return (
