@@ -15,7 +15,8 @@ function Register() {
         password: "",
     })
 
-    const [errors, setErrors] = useState({})
+    const [errors, setErrors] = useState({});
+    const [warning, setWarning] = useState('')
 
     const handleChange = (event) => {
         setValues({
@@ -41,6 +42,7 @@ function Register() {
 
         } catch (error) {
             console.log(error.message)
+            setWarning('This user already registered, please log in.');
         }
     }
 
@@ -102,7 +104,7 @@ function Register() {
                             <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
                                 <button type="button" className="btn btn-primary btn-lg" onClick={handleSubmit}>Register</button>
                             </div>
-                                    
+                                {warning && <p className='text-danger'>{ warning }</p>}     
                             </form>
                         </div>
                         <div className="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
