@@ -76,12 +76,11 @@ function SinglePost() {
                 
                 post.length <=  0 ? "" :
                     post.comment.map((cmt) => {
-                        return <div className='comment mx-auto px-3 my-3 bg-light rounded' key={cmt.id}>
-                            <br></br>
+                        return <div className='comment mx-auto p-3 my-3 bg-light rounded' key={cmt.id}>
                              <div className='d-flex justify-content-start align-items-center text-primary'>
-                               <MdPerson className='fs-3'/> <p className='fs-6 fw-bold px-2 pt-3'>{ cmt.username }</p>
+                               <MdPerson className='fs-3'/> <p className='fs-6 fw-semibold px-2 pt-3'>{ cmt.username }</p>
                             </div>
-                            <p className="mt-3 mb-4 pb-2">{cmt.comment}</p>
+                            <p className="my-2 ps-3 ">{cmt.comment}</p>
                         </div>
                     })
                 }
