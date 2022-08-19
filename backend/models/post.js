@@ -9,6 +9,7 @@ const Post =  sequelize.define('post', {
     content: { type: DataTypes.STRING, allowNull: false },
     imageUrl: { type: DataTypes.STRING, allowNull: true },
     userId: { type: DataTypes.STRING, allowNull: false },
+    username: { type: DataTypes.STRING, allowNull: false },
     isRead: {type: DataTypes.BOOLEAN}
 },
     {

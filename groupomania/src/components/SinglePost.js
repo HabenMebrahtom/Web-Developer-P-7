@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { useLocation, Link } from "react-router-dom";
 import { AiOutlineArrowLeft } from "react-icons/ai";
+import { MdPerson } from 'react-icons/md';
 import axios from 'axios';
 import './SinglePost.css'
 import CommentForm from './Comment'
@@ -54,8 +55,11 @@ function SinglePost() {
                 </Link>
             </div>
             <div className="card shadow p-3 mx-auto bg-body rounded ">
+                <div className='d-flex justify-content-start align-items-center text-primary'>
+                    <MdPerson className='fs-3'/> <p className='fs-6 fw-bold px-2 pt-3'>{ post.username}</p>
+                </div>
                 <div className="media-body">
-                    <h5 className="p-1 ">{ post.title }</h5>
+                    <h5 className="p-1 fw-bold">{ post.title }</h5>
                     <p className='px-2'>{ post.content}</p>
                 </div>
                 < div className="mt-2" style={{display: post.imageUrl ? 'block' : 'none'}}>
@@ -73,11 +77,11 @@ function SinglePost() {
                 post.length <=  0 ? "" :
                     post.comment.map((cmt) => {
                         return <div className='comment mx-auto px-3 my-3 bg-light rounded' key={cmt.id}>
-                           <br></br>
-                           <h6 className="fw-bold text-primary mb-1">{ cmt.username}</h6>
-                                   <p className="mt-3 mb-4 pb-2">
-                                        {cmt.comment}
-                           </p>
+                            <br></br>
+                             <div className='d-flex justify-content-start align-items-center text-primary'>
+                               <MdPerson className='fs-3'/> <p className='fs-6 fw-bold px-2 pt-3'>{ cmt.username }</p>
+                            </div>
+                            <p className="mt-3 mb-4 pb-2">{cmt.comment}</p>
                         </div>
                     })
                 }

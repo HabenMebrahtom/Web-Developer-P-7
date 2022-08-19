@@ -35,7 +35,7 @@ exports.getAllPosts = async(req, res) => {
 
 //create a new post
 exports.createPost = async (req, res) => {
-    const { title, content, userId, isRead } = req.body;
+    const { title, content, userId, username, isRead } = req.body;
     const url = req.protocol + '://' + 'localhost:4000';
 
     try {
@@ -45,6 +45,7 @@ exports.createPost = async (req, res) => {
             content: content,
             imageUrl: url + '/images/' + req.file.filename,
             userId: userId,
+            username: username,
             isRead: isRead
             });
         const newPost = await post.save();
@@ -54,6 +55,7 @@ exports.createPost = async (req, res) => {
             title: title,
             content: content,
             userId: userId,
+            username: username,
             isRead: isRead
         });
         const newPost = await post.save();

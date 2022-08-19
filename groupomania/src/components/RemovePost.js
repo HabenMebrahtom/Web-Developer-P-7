@@ -18,7 +18,6 @@ function RemovePost() {
 
         if (response.status === 200) {
              navigate('/home');
-            window.location.reload();
              console.log('This post deleted sucessfully');
         }
        

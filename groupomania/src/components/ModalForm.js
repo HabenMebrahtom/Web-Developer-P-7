@@ -27,7 +27,8 @@ function ModalForm() {
         formData.append('content', content);
         formData.append('imageUrl', image);
         formData.append('userId', user.id);
-        formData.append('isRead', isRead)
+        formData.append('username', user.name);
+        formData.append('isRead', isRead);
 
         const response = await axios.post(url, formData, {
               headers: {
@@ -37,8 +38,8 @@ function ModalForm() {
 
         console.log(response.data)
         window.location.reload()
-   }
-
+    }
+    
     return (
         <section className='float-start mr-3'>
             <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Modal">
