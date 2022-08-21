@@ -4,6 +4,7 @@ const path = require('path');
 const userRouter = require('./router/user');
 const postRouter = require('./router/post');
 const commentRouter = require('./router/comment');
+const userPostRouter = require('./router/userPost');
 
 
 const app = express();
@@ -18,6 +19,7 @@ app.use(cors());
 app.use('/api/auth', userRouter);
 app.use('/api/posts', postRouter);
 app.use('/api/comments', commentRouter);
+app.use('/api/userPost', userPostRouter);
 
 
 app.listen(PORT, () => {

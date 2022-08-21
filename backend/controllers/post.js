@@ -1,5 +1,7 @@
 const Post = require('../models/post');
 const Comment = require('../models/comment');
+const UserPost = require('../models/userPost');
+
 
 //get a single post
 exports.getSinglePost = async (req, res) => {
@@ -8,9 +10,12 @@ exports.getSinglePost = async (req, res) => {
     try {
         const post = await Post.findOne({
             include: [{
-            model: Comment,
-            as: 'comment'
-        }], where: { id: id } });
+                model: Comment,
+                as: 'comment'
+                }, {
+                model: UserPost,
+                as: 'userPost'
+                }], where: { id: id } });
         res.status(200).json(post);
     } catch (error) {
         res.status(500).send(error.message)
@@ -25,7 +30,10 @@ exports.getAllPosts = async(req, res) => {
             include: [{
                 model: Comment,
                 as: 'comment'
-            }],
+            }, {
+                model: UserPost,
+                as: 'userPost'
+                }],
         });
         res.status(200).json(post)
     } catch (error) {
@@ -35,8 +43,9 @@ exports.getAllPosts = async(req, res) => {
 
 //create a new post
 exports.createPost = async (req, res) => {
-    const { title, content, userId, username, isRead } = req.body;
+    const { title, content, userId, username } = req.body;
     const url = req.protocol + '://' + 'localhost:4000';
+    console.log(username)
 
     try {
         if (req.file) {
@@ -46,7 +55,6 @@ exports.createPost = async (req, res) => {
             imageUrl: url + '/images/' + req.file.filename,
             userId: userId,
             username: username,
-            isRead: isRead
             });
         const newPost = await post.save();
          res.status(201).send(newPost);
@@ -56,7 +64,6 @@ exports.createPost = async (req, res) => {
             content: content,
             userId: userId,
             username: username,
-            isRead: isRead
         });
         const newPost = await post.save();
         res.status(201).send(newPost);
@@ -71,7 +78,7 @@ exports.createPost = async (req, res) => {
 //updating a post
 exports.updatePost = async (req, res) => {
     const { id } = req.params;
-    const { title, content, imageUrl, isRead } = req.body;
+    const { title, content, imageUrl } = req.body;
     let post = new Post({ where: { id: req.params.id } });
 
     if (req.file) {
@@ -81,7 +88,6 @@ exports.updatePost = async (req, res) => {
            title: title,
            content: content,
            imageUrl: url + '/images/' + req.file.filename,
-           isRead: isRead
         }
     } else {
         post = {
@@ -89,7 +95,6 @@ exports.updatePost = async (req, res) => {
             title: title,
             content: content,
             imageUrl: imageUrl,
-            isRead: isRead
          }
     }
     
@@ -103,6 +108,7 @@ exports.updatePost = async (req, res) => {
 
     }
 }
+
 
 //delete a post
 exports.deletePost = async (req, res) => {

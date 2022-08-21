@@ -1,6 +1,7 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = require('../db');
 const Comment = require('./comment');
+const UserPost = require('./userPost');
 
 
 const Post =  sequelize.define('post', {
@@ -10,7 +11,6 @@ const Post =  sequelize.define('post', {
     imageUrl: { type: DataTypes.STRING, allowNull: true },
     userId: { type: DataTypes.STRING, allowNull: false },
     username: { type: DataTypes.STRING, allowNull: false },
-    isRead: {type: DataTypes.BOOLEAN}
 },
     {
         timestamps: false
@@ -29,6 +29,15 @@ Comment.belongsTo(Post, {
     onDelete: 'CASCADE'
 });
 
+Post.hasMany(UserPost, {
+    as: 'userPost',
+    onDelete: 'CASCADE'
+});
+
+UserPost.belongsTo(Post, {
+    as: 'post',
+    onDelete: 'CASCADE'
+});
 
 sequelize.authenticate()
     .then(() => {
