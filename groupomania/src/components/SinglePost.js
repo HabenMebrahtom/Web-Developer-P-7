@@ -3,10 +3,11 @@ import { useLocation, Link } from "react-router-dom";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { MdPerson } from 'react-icons/md';
 import axios from 'axios';
-import './SinglePost.css'
+import './style/SinglePost.css'
 import CommentForm from './Comment'
 import RemovePost from './RemovePost';
 import UpdatePost from './UpdatePost';
+const user = JSON.parse(localStorage.getItem('user'))
 
 function SinglePost() {
     const [post, setPost] = useState([]);
@@ -15,7 +16,6 @@ function SinglePost() {
 
     useEffect(() => {
         const fetchPost = async () => {
-            const user = JSON.parse(localStorage.getItem('user'))
             const response = await axios.get(`http://localhost:4000/api/posts/${id}`, {
                 headers: {
                     'Authorization': `Bearer ${user.token}`
@@ -26,25 +26,25 @@ function SinglePost() {
         }
 
         fetchPost();
+       
     }, [id]);
 
+
     const handleLink = async () => { 
-        const user = JSON.parse(localStorage.getItem('user'))
+       
         
         const data = {
-            isRead: true
+            userId: user.id
         }
     
-     await axios.put(`http://localhost:4000/api/posts/${id}`, data, {
+     const response = await axios.post(`http://localhost:4000/api/userPost/${id}`, data, {
                 headers: {
                 'Authorization': `Bearer ${user.token}`
             }
-        })
+     })
+        console.log(response.data)
     }
-
-    useEffect(() => {
-         handleLink();
-    })
+        
 
 
     return (
@@ -63,11 +63,12 @@ function SinglePost() {
                     <p className='px-2'>{ post.content}</p>
                 </div>
                 < div className="mt-2" style={{display: post.imageUrl ? 'block' : 'none'}}>
-                     <img src={post.imageUrl} className="w-100 h-75" alt="post"/>
+                     <img src={post.imageUrl} className="w-25 h-25" alt="post"/>
                 </div>
                 <div className='d-flex justify-content-end align-items-center mt-3'>
-                    <RemovePost />
-                    <UpdatePost />
+                    {post.userId === user.id ? <RemovePost /> : ''}
+                    {post.userId === user.id ? <UpdatePost />: '' }
+                    <button className='btn btn-primary ms-2' onClick={handleLink}>Mark as read</button>
                   </div>
             </div>
             <CommentForm/>

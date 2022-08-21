@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './ModalForm.css'
+import './style/ModalForm.css'
 
 function ModalForm() {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [image, setImage] = useState('');
-    let isRead = false;
 
 
     const hiddenFileInput = React.useRef(null);
@@ -28,7 +27,7 @@ function ModalForm() {
         formData.append('imageUrl', image);
         formData.append('userId', user.id);
         formData.append('username', user.name);
-        formData.append('isRead', isRead);
+       
 
         const response = await axios.post(url, formData, {
               headers: {
@@ -64,15 +63,15 @@ function ModalForm() {
                             onChange={event => setTitle(event.target.value)}
                             value={title} />           
                     </div>
-                    <div className="form-floating">
+                    <div>
                         <textarea
                             className="form-control mt-3"
-                            placeholder="Leave a comment here"
+                            placeholder="Write your taughts here"
                             id="textarea"
                             onChange={event => setContent(event.target.value)}
                             value={content}
                             ></textarea>
-                        <label htmlFor="textarea">Write your thoughts here ...</label>
+                        
                     </div>
                     <div>
                               

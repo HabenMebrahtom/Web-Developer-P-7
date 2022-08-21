@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from "react-router-dom";
 import { AiFillEdit } from "react-icons/ai";
 import axios from 'axios';
@@ -8,6 +8,7 @@ function UpdatePost() {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [image, setImage] = useState('');
+    //const [data, setData] = useState([]);
 
 
     const hiddenFileInput = React.useRef(null);
@@ -17,6 +18,22 @@ function UpdatePost() {
     const handleClick = (e) => {
         hiddenFileInput.current.click();
     }
+
+ useEffect(() => {
+    const getPost = async () => {
+         const user = JSON.parse(localStorage.getItem('user'));
+         const response = await axios.get(`http://localhost:4000/api/posts/${id}`, {
+                headers: {
+                    'Authorization': `Bearer ${user.token}`
+                }
+            });
+        setTitle(response.data.title);
+        setContent(response.data.content)
+        console.log(response.data)
+    }
+    
+        getPost()
+    }, [id])
     
     const handleSubmit = async(event) => {
         event.preventDefault();
@@ -38,7 +55,7 @@ function UpdatePost() {
         })
 
         console.log(response.data)
-        //window.location.reload()
+         window.location.reload()
    }
 
     return (
@@ -61,19 +78,17 @@ function UpdatePost() {
                             name='title'
                             id='title'
                             className='form-control'
-                            placeholder='Title'
                             onChange={event => setTitle(event.target.value)}
                             value={title} />           
                     </div>
-                    <div className="form-floating">
+                    <div>
                         <textarea
                             className="form-control mt-3"
-                            placeholder="Leave a comment here"
                             id="textarea"
                             onChange={event => setContent(event.target.value)}
                             value={content}
                             ></textarea>
-                        <label htmlFor="textarea">Write your thoughts here ...</label>
+                        
                     </div>
                     <div>
                               

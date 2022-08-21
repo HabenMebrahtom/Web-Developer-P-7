@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { MdTopic, MdGppGood, MdPerson } from 'react-icons/md';
+import { MdTopic, MdGppGood , MdPerson } from 'react-icons/md';
 import axios from 'axios';
-import './DisplayPosts.css';
+import './style/DisplayPosts.css';
+  const user = JSON.parse(localStorage.getItem('user'))
 
 function DisplayPosts() {
 
     const [posts, setPosts] = useState([]);
-
- 
-    const fetchData = async () => {
-           const user = JSON.parse(localStorage.getItem('user'))
+  
+    const fetchData = async () => {  
         const response = await axios.get('http://localhost:4000/api/posts/', {
             headers: {
                 'Authorization': `Bearer ${user.token}`
@@ -19,8 +18,12 @@ function DisplayPosts() {
         setPosts(response.data)
         console.log(response.data)
     }
-  
 
+    console.log(posts);
+
+
+    
+  
     useEffect(() => {
         fetchData()
     }, [])
@@ -29,7 +32,7 @@ function DisplayPosts() {
         <>
             {posts.map(post => {
                 return (
-                    <div className="media shadow-lg p-3 bg-body rounded my-3 mx-auto position-relative" key={post.id} >
+                    <div className="media shadow-lg p-3 bg-body rounded my-3 mx-auto position-relative"  key={post.id} >
                       <Link to={`/post?id=${post.id}`} className="link">
                         <div className='d-flex justify-content-start align-items-center text-primary'>
                             <MdPerson className='fs-3'/> <p className='fs-6 fw-bold px-2 pt-3'>{ post.username}</p>
@@ -39,13 +42,14 @@ function DisplayPosts() {
                              <MdTopic/>
                             </div>
                             <div className="media-body">
-                                <p className="link fs-6 fw-bold" style={{color: post.isRead ? 'black' : 'green'}}>
+                                <p className="link fs-6 fw-bold" style={{ color: post.userPost.some(userpost =>  userpost.userId === user.id) || post.userId === user.id ? 'black' : 'green' }}>
                                     {post.title}
                                 </p>
                                 <p className='text-dark'>{post.content}</p>
+                                <div className='ms-auto mark'>
+                                      < MdGppGood style={{ display: post.userPost.some(userpost =>  userpost.userId === user.id) || post.userId === user.id ? 'none' : 'block' }}/>
+                                       
                             </div>
-                            <div className='ms-auto mark'>
-                                {post.isRead ? '': < MdGppGood />}
                             </div>
                             </div>
                         </Link>

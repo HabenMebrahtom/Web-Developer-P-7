@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate, Link} from 'react-router-dom';
 import { Container, Nav, Navbar, Image, NavDropdown } from 'react-bootstrap';
-import "./Header.css";
+import "./style/Header.css";
 import axios from 'axios'
 
 
@@ -13,7 +13,6 @@ const Header = () => {
     const logOut = () => {
         localStorage.clear();
         navigate('/login');
-        window.location.reload();
   }
   
   

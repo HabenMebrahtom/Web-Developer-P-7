@@ -1,7 +1,7 @@
 import React from 'react'
 import ModalForm from './ModalForm';
 import DisplayPosts from './DisplayPosts';
-import './Home.css'
+import './style/Home.css'
 
 function Home() {
   return (
