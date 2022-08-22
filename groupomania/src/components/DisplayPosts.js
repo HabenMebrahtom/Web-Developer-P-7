@@ -16,13 +16,8 @@ function DisplayPosts() {
             }
         });
         setPosts(response.data)
-        console.log(response.data)
     }
-
-    console.log(posts);
-
-
-    
+  
   
     useEffect(() => {
         fetchData()

@@ -21,12 +21,12 @@ function Comment() {
             comment: comment,
             username: user.name
         }
-        const response = await axios.post(url, commentObj, {
+        await axios.post(url, commentObj, {
             headers: {
                 'Authorization': `Bearer ${user.token}`
             }
         });
-        console.log(response.data);
+        
         window.location.reload()
        }
        

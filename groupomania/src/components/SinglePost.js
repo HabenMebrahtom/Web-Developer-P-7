@@ -22,14 +22,13 @@ function SinglePost() {
                 }
             });
             setPost(response.data)
-            console.log(response.data)
         }
 
         fetchPost();
-       
     }, [id]);
 
 
+ useEffect(() => {
     const handleLink = async () => { 
        
         
@@ -37,15 +36,18 @@ function SinglePost() {
             userId: user.id
         }
     
-     const response = await axios.post(`http://localhost:4000/api/userPost/${id}`, data, {
+         await axios.post(`http://localhost:4000/api/userPost/${id}`, data, {
                 headers: {
                 'Authorization': `Bearer ${user.token}`
             }
      })
-        console.log(response.data)
+    
     }
-        
+          handleLink();
+    }, [id])
 
+        
+  
 
     return (
         <section>
@@ -67,9 +69,9 @@ function SinglePost() {
                 </div>
                 <div className='d-flex justify-content-end align-items-center mt-3'>
                     {post.userId === user.id ? <RemovePost /> : ''}
-                    {post.userId === user.id ? <UpdatePost />: '' }
-                    <button className='btn btn-primary ms-2' onClick={handleLink}>Mark as read</button>
-                  </div>
+                    {post.userId === user.id ? <UpdatePost /> : ''}
+                </div>
+    
             </div>
             <CommentForm/>
             

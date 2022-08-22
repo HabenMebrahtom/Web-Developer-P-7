@@ -6,8 +6,8 @@ import axios from 'axios';
 function RemovePost() {
     const navigate = useNavigate();
     const query = new URLSearchParams(useLocation().search);
-  const id = query.get('id');
-   const user = JSON.parse(localStorage.getItem('user'));
+    const id = query.get('id');
+    const user = JSON.parse(localStorage.getItem('user'));
 
     const deletePost = async () => {
        const response = await axios.delete(`http://localhost:4000/api/posts/${id}`, {

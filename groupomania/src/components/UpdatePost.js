@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from "react-router-dom";
 import { AiFillEdit } from "react-icons/ai";
 import axios from 'axios';
+ const user = JSON.parse(localStorage.getItem('user'));
 
 
 function UpdatePost() {
@@ -21,7 +22,6 @@ function UpdatePost() {
 
  useEffect(() => {
     const getPost = async () => {
-         const user = JSON.parse(localStorage.getItem('user'));
          const response = await axios.get(`http://localhost:4000/api/posts/${id}`, {
                 headers: {
                     'Authorization': `Bearer ${user.token}`
@@ -29,7 +29,7 @@ function UpdatePost() {
             });
         setTitle(response.data.title);
         setContent(response.data.content)
-        console.log(response.data)
+        
     }
     
         getPost()
@@ -39,7 +39,7 @@ function UpdatePost() {
         event.preventDefault();
         
         const url = `http://localhost:4000/api/posts/${id}`;
-        const user = JSON.parse(localStorage.getItem('user'));
+       
 
         const formData = new FormData();
 
@@ -48,13 +48,12 @@ function UpdatePost() {
         formData.append('imageUrl', image);
         formData.append('userId', user.id);
 
-        const response = await axios.put(url, formData, {
+         await axios.put(url, formData, {
               headers: {
                 'Authorization': `Bearer ${user.token}`
             } 
         })
 
-        console.log(response.data)
          window.location.reload()
    }
 
