@@ -27,7 +27,7 @@ function DisplayPosts() {
         <>
             {posts.map(post => {
                 return (
-                    <div className="media shadow-lg p-3 bg-body rounded my-3 mx-auto position-relative"  key={post.id} >
+                    <div className="media shadow-lg p-3 rounded my-3 mx-auto position-relative" style={{ backgroundColor: post.userPost.some(userpost =>  userpost.userId === user.id) || post.userId === user.id ? 'white' : 'lightCyan' }}  key={post.id} >
                       <Link to={`/post?id=${post.id}`} className="link">
                         <div className='d-flex justify-content-start align-items-center text-primary'>
                             <MdPerson className='fs-3'/> <p className='fs-6 fw-bold px-2 pt-3'>{ post.username}</p>
