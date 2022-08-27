@@ -5,11 +5,13 @@ import './style/Home.css'
 
 function Home() {
   return (
-      <section>
+    <section>
+          <h1 className='text-center my-5'>Discussion Forum</h1>
           <div className='sub-header mb-5'>
             <ModalForm /> 
           </div>
-          <div className='my-5'>
+      <div className='my-5'>
+        
             <DisplayPosts />
           </div>  
       </section>

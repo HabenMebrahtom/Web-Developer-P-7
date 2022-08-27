@@ -54,6 +54,7 @@ function ModalForm() {
                 </div>
                 <div className="modal-body">
                     <div>
+                              
                         <input
                             type="text"
                             name='title'
@@ -61,15 +62,19 @@ function ModalForm() {
                             className='form-control'
                             placeholder='Title'
                             onChange={event => setTitle(event.target.value)}
-                            value={title} />           
+                            value={title}
+                            aria-label="title"    />  
+                           
                     </div>
-                    <div>
+                            <div>
+                              
                         <textarea
                             className="form-control mt-3"
                             placeholder="Write your taughts here"
                             id="textarea"
                             onChange={event => setContent(event.target.value)}
                             value={content}
+                            aria-label="content" 
                             ></textarea>
                         
                     </div>
@@ -86,6 +91,7 @@ function ModalForm() {
                         ref={hiddenFileInput}
                         className='upload-file'
                         onChange={event => setImage(event.target.files[0])}
+                        aria-label="file" 
                             />  
                     <button type="button" className="btn btn-warning" onClick={handleClick}>Upload a file</button>   
                     <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
